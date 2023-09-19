@@ -6,19 +6,20 @@ import sklearn
 import matplotlib.pyplot as plt
 import seaborn
 
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+def load_arff(f_name):
+    print(f'Opening, {f_name}')
+    data, meta = arff.loadarff(f_name)
+    df = pd.DataFrame(data)
+    return df
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    adult_df = load_arff('datasets/adult.arff')
+    heartc_df = load_arff('datasets/heart-c.arff')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    print(adult_df)
+    print(heartc_df)
