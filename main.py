@@ -19,7 +19,9 @@ def load_arff(f_name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     adult_df = load_arff('datasets/adult.arff')
-    heartc_df = load_arff('datasets/heart-c.arff')
+    vowel_df = load_arff('datasets/vowel.arff')
+    pen_based_df = load_arff('datasets/pen-based.arff')
 
     print(adult_df)
-    print(heartc_df)
+    print(vowel_df)
+    print(pen_based_df)
