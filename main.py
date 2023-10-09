@@ -5,6 +5,10 @@ import scipy as sc
 import sklearn
 import matplotlib.pyplot as plt
 import seaborn
+import math
+
+import preprocessing
+from preprocessing import *
 
 
 
@@ -18,10 +22,24 @@ def load_arff(f_name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    #####################################
+    #             Load datasets         #
+    #####################################
     adult_df = load_arff('datasets/adult.arff')
     vowel_df = load_arff('datasets/vowel.arff')
     pen_based_df = load_arff('datasets/pen-based.arff')
+    #breast_w_df = load_arff('datasets/breast-w.arff')
 
-    print(adult_df)
-    print(vowel_df)
-    print(pen_based_df)
+
+    print(adult_df.shape)
+    print(vowel_df.shape)
+    print(pen_based_df.shape)
+
+
+    #####################################
+    #             Preprocessing         #
+    #####################################
+    preprocessing.preprocess_df(adult_df)
+    preprocessing.preprocess_df(vowel_df)
+    preprocessing.preprocess_df(pen_based_df)
+    print()
