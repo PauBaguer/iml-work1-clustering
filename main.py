@@ -2,13 +2,12 @@ from scipy.io import arff
 import numpy as np
 import pandas as pd
 import scipy as sc
-import sklearn
 import matplotlib.pyplot as plt
 import seaborn
 import math
 
 import preprocessing
-from preprocessing import *
+import dbscan
 
 
 
@@ -39,7 +38,15 @@ if __name__ == '__main__':
     #####################################
     #             Preprocessing         #
     #####################################
-    preprocessing.preprocess_df(adult_df)
-    preprocessing.preprocess_df(vowel_df)
-    preprocessing.preprocess_df(pen_based_df)
+    preprocessed_adult_df, preprocessor_pipeline_adult = preprocessing.preprocess_df(adult_df)
+    preprocessed_vowel_df, preprocessor_pipeline_vowel =preprocessing.preprocess_df(vowel_df)
+    preprocessed_pen_df, preprocessor_pipeline_pen =preprocessing.preprocess_df(pen_based_df)
     print()
+
+    #####################################
+    #                DBSCAN             #
+    #####################################
+
+    dbscan.dbscan(preprocessed_adult_df)
+    dbscan.dbscan(preprocessed_vowel_df)
+    dbscan.dbscan(preprocessed_pen_df)
