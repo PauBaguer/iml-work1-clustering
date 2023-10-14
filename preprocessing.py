@@ -3,7 +3,7 @@ from sklearn import preprocessing as pre
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline, Pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 
@@ -55,12 +55,14 @@ def preprocess_df(df):
     categorical_transformer = Pipeline(steps=[
         ("imputer", SimpleImputer(strategy="most_frequent")), # fill missing values with most frequent
         ("encoder", pre.OneHotEncoder()),
-        ("scaler", StandardScaler(with_mean=False))
+        # ("scaler", StandardScaler(with_mean=False)),
+        # ("min-max-scaler", MinMaxScaler())
     ])
 
     numeric_transformer = Pipeline(steps=[
         ("imputer", SimpleImputer(strategy="median")), # fill missing values with the median
-        ("scaler", StandardScaler())
+        ("scaler", StandardScaler()),
+        ("min-max-scaler", MinMaxScaler())
     ])
 
     preprocessor = ColumnTransformer(sparse_threshold=0, transformers=[
