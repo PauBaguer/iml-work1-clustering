@@ -35,7 +35,7 @@ def preprocess_df(df):
     numeric_cols = []
     for col in prepped_df:
         if col in classification_goldstandard_cols:
-            goldstandard_col = col
+            goldstandard_col.append(col)
             break
         col_type = type(df[col].values[0])
         if col_type == bytes:

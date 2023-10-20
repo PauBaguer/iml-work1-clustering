@@ -40,7 +40,7 @@ if __name__ == '__main__':
     #####################################
     preprocessed_adult_df, preprocessed_gs_adult_df, preprocessor_pipeline_adult = preprocessing.preprocess_df(adult_df)
     preprocessed_vowel_df, preprocessed_gs_vowel_df, preprocessor_pipeline_vowel = preprocessing.preprocess_df(vowel_df)
-    preprocessed_pen_df, preprocessed_gs_pen_df,preprocessor_pipeline_pen = preprocessing.preprocess_df(pen_based_df)
+    preprocessed_pen_df, preprocessed_gs_pen_df, preprocessor_pipeline_pen = preprocessing.preprocess_df(pen_based_df)
     print()
 
     #####################################
@@ -55,6 +55,6 @@ if __name__ == '__main__':
     #                Birch              #
     #####################################
 
-    birch.birch(preprocessed_adult_df)
-    birch.birch(preprocessed_vowel_df)
-    birch.birch(preprocessed_pen_df)
+    # birch.birch(preprocessed_adult_df)
+    # birch.birch(preprocessed_vowel_df)
+    # birch.birch(preprocessed_pen_df)
