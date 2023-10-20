@@ -77,7 +77,7 @@ def preprocess_df(df):
     print()
 
     goldstandard_preprocessor = Pipeline(
-        steps=[("one-hot", pre.OneHotEncoder())]
+        steps=[("one-hot", pre.OneHotEncoder(sparse=False))]
     )
 
     goldstandard_preprocessor.fit(prepped_df[goldstandard_col])
