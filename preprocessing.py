@@ -27,13 +27,15 @@ def erase_rows_with_missing_values(df):
 #   Main preprocessing function     #
 #####################################
 def preprocess_df(df):
-    prepped_df = erase_rows_with_missing_values(df)
+    prepped_df = df#erase_rows_with_missing_values(df)
 
     classification_goldstandard_cols = ["class", "a17", "Class"] # The columns to take out of preprocessing bc they are the final gold standard classification.
+    goldstandard_col = []
     categorical_cols = []
     numeric_cols = []
     for col in prepped_df:
         if col in classification_goldstandard_cols:
+            goldstandard_col = col
             break
         col_type = type(df[col].values[0])
         if col_type == bytes:
@@ -74,10 +76,17 @@ def preprocess_df(df):
     transformed_df = preprocessor.transform(prepped_df)
     print()
 
+    goldstandard_preprocessor = Pipeline(
+        steps=[("one-hot", pre.OneHotEncoder())]
+    )
+
+    goldstandard_preprocessor.fit(prepped_df[goldstandard_col])
+    transformed_goldstandard_col_df = goldstandard_preprocessor.transform(prepped_df[goldstandard_col])
+
     # clustering = Pipeline(
     #     steps=[("preprocessor", preprocessor), ("clustering", DBSCAN(eps=0.3, min_samples=10))]
     # )
     # clustering.fit(prepped_df)
 
 
-    return transformed_df, preprocessor
+    return transformed_df, transformed_goldstandard_col_df, preprocessor
