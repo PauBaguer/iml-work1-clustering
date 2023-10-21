@@ -76,12 +76,10 @@ def preprocess_df(df):
     transformed_df = preprocessor.transform(prepped_df)
     print()
 
-    goldstandard_preprocessor = Pipeline(
-        steps=[("one-hot", pre.OneHotEncoder(sparse=False))]
-    )
+    goldstandard_preprocessor = pre.LabelEncoder()
 
-    goldstandard_preprocessor.fit(prepped_df[goldstandard_col])
-    transformed_goldstandard_col_df = goldstandard_preprocessor.transform(prepped_df[goldstandard_col])
+    goldstandard_preprocessor.fit(prepped_df[goldstandard_col].values.ravel())
+    transformed_goldstandard_col_df = goldstandard_preprocessor.transform(prepped_df[goldstandard_col].values.ravel())
 
     # clustering = Pipeline(
     #     steps=[("preprocessor", preprocessor), ("clustering", DBSCAN(eps=0.3, min_samples=10))]
