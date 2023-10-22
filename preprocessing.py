@@ -52,7 +52,11 @@ def plot_data(X, labels):
             markersize=3,
             zorder=labels[i]
         )
+        # if i > 100:
+        #     plt.show()
+        #     return
         i = i+1
+
 
 
 

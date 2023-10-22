@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn import metrics
 from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
@@ -7,8 +8,9 @@ import matplotlib.cm as cm
 def dbscan(X, eps, min_samples):
     db = DBSCAN(eps=eps, min_samples=min_samples).fit(X)
     labels = db.labels_
+    return labels
 
-    plot_data(X, labels)
+
     # # Number of clusters in labels, ignoring noise if present.
     # n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
     # n_noise_ = list(labels).count(-1)
@@ -96,6 +98,9 @@ def plot_data(X, labels):
                 markersize=3,
                 zorder=labels[i]
             )
+        # if i > 100:
+        #     plt.show()
+        #     return
         i = i+1
 
 
@@ -103,3 +108,34 @@ def plot_data(X, labels):
 
     plt.title(f"Preprocessed data. Nº clusters: {n_clusters_}")
     plt.show()
+
+def graph_dbscan_eps(df, eps_range):
+
+    n_clusters_arr = []
+    n_noise_arr = []
+    for eps in eps_range:
+         print(eps)
+         labels = dbscan(df, eps, 100)
+         n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+         n_noise_ = list(labels).count(-1)
+         n_clusters_arr.append(n_clusters_)
+         n_noise_arr.append(n_noise_)
+
+
+    results_df = pd.DataFrame({"eps": eps_range, "n_clusters":n_clusters_arr, "n_noise":n_noise_arr})
+
+    plt.plot(results_df["eps"], results_df["n_clusters"], marker='x')
+    plt.title("DBSCAN nº of clusters vs Epsilon")
+    plt.show()
+
+def accuracy(gs, labels):
+    count = 0
+    for idx, x in enumerate(gs):
+        if x == labels[idx]:
+            count = count + 1
+
+    acc = count / len(gs)
+    print(f'Count {count}')
+    print(f'Accuracy {acc}')
+
+
