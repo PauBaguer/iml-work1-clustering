@@ -65,8 +65,24 @@ def plot_data(X, labels, dataset_name):
     plt.savefig(f"figures/preprocessing/{dataset_name}.png")
     plt.show()
 
+
+# Split each numerical value into 4 categories
+# It could be improved by allowing to change the number of bins
+def numerical_to_categorical(df, num_index_end):
+    for row in df:
+        for i in range(0, num_index_end):
+            if row[i] < 0.25:
+                row[i] = 'a'
+            elif row[i] < 0.5:
+                row[i] = 'b'
+            elif row[i] < 0.75:
+                row[i] = 'c'
+            else:
+                row[i] = 'd'
+    return df
+
 #####################################
-#   Main preprocessing function     #
+#   Main preprocessing functions    #
 #####################################
 def preprocess_df(df, dataset_name):
     prepped_df = df#erase_rows_with_missing_values(df)
@@ -126,5 +142,63 @@ def preprocess_df(df, dataset_name):
 
     plot_data(transformed_df, transformed_goldstandard_col_df, dataset_name)
 
+
+    return transformed_df, transformed_goldstandard_col_df, preprocessor
+
+def preprocess_df_to_categorical(df):
+    prepped_df = df#erase_rows_with_missing_values(df)
+
+    classification_goldstandard_cols = ["class", "a17", "Class"] # The columns to take out of preprocessing bc they are the final gold standard classification.
+    goldstandard_col = []
+    categorical_cols = []
+    numeric_cols = []
+
+    for index, col in enumerate(prepped_df):
+        if col in classification_goldstandard_cols:
+            goldstandard_col.append(col)
+            break
+        col_type = type(df[col].values[0])
+        if col_type == bytes:
+            # Categorical data
+            categorical_cols.append(col)
+
+        elif col_type == np.float64:
+            # Numerical data
+            numeric_cols.append(col)
+        else:
+            print('Check other type!!')
+
+    # transform bytes to string.
+    str_df = prepped_df.select_dtypes([np.object])
+    str_df = str_df.stack().str.decode("utf-8").unstack()
+    for col in str_df:
+        prepped_df[col] = str_df[col]
+
+    categorical_transformer = Pipeline(steps=[
+        ("imputer", SimpleImputer(strategy="most_frequent")), # fill missing values with most frequent
+        # ("scaler", StandardScaler(with_mean=False)),
+        # ("min-max-scaler", MinMaxScaler())
+    ])
+
+    numeric_transformer = Pipeline(steps=[
+        ("imputer", SimpleImputer(strategy="median")), # fill missing values with the median
+        ("scaler", StandardScaler()),
+        ("min-max-scaler", MinMaxScaler())
+    ])
+
+    preprocessor = ColumnTransformer(sparse_threshold=0, transformers=[
+        ("num", numeric_transformer, numeric_cols),
+        ("cat", categorical_transformer, categorical_cols)
+    ])
+
+    preprocessor.fit(prepped_df)
+    transformed_df = preprocessor.transform(prepped_df)
+    numerical_to_categorical(transformed_df, len(numeric_cols))
+    print()
+
+    goldstandard_preprocessor = pre.LabelEncoder()
+
+    goldstandard_preprocessor.fit(prepped_df[goldstandard_col].values.ravel())
+    transformed_goldstandard_col_df = goldstandard_preprocessor.transform(prepped_df[goldstandard_col].values.ravel())
 
     return transformed_df, transformed_goldstandard_col_df, preprocessor
