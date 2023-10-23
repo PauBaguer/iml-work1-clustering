@@ -80,27 +80,57 @@ def trying_different_values(numlocal, maxneighbor, k, df, gt):
     for num in numlocal:
         for maxn in maxneighbor:
             for k_val in k:
-                bestnode, bestclusters = CLARANS(k_val, num, maxn, df)
+                bestnode, bestclusters = CLARANS(df, k_val, num, maxn)
                 predictions_array = pre_validation(bestclusters)
                 accuracy = metrics.accuracy_score(gt, predictions_array)
                 results.append([[num, maxn, k_val, accuracy, [bestnode, bestclusters]]])
     return results
 
 
-def CLARANS(k, numlocal, maxneighbor, df):
-    print("Running CLARANS")
+def plot_test_cases_results(preproc_df, preprocessed_df, preprocessed_gs, result):
+    new_series = pd.Series(preprocessed_gs, name='GT')
+    df = pd.concat([preproc_df, new_series], axis=1)
 
+    silhouette = {}
+    db = {}
+
+    for testcase in range(len(result)):
+        bestnode = result[testcase][0][4][0]
+        numlocal = result[testcase][0][0]
+        maxneighbor = result[testcase][0][1]
+        k = result[testcase][0][2]
+
+        bestnode_arr = bestnode.to_numpy()
+        for i in range(len(preprocessed_df[0]) - 1):
+            plt.figure(figsize=(8, 6))
+            plt.scatter(df[i], df[i + 1], c=df.iloc[:, -1], cmap='Pastel1', s=20)
+            plt.scatter(bestnode_arr[:, i], bestnode_arr[:, i + 1], color='#000000')
+            plt.title(f'K = {k}; numlocal = {numlocal}, maxneighbor = {maxneighbor}, Variables {i} {i + 1}')
+            plt.show()
+
+        bestclusters = result[testcase][0][4][1]
+        predictions_array = pre_validation(bestclusters)
+
+        silhouette_avg = metrics.silhouette_score(preprocessed_df, predictions_array)
+        silhouette[testcase] = silhouette_avg
+
+        db_index = metrics.davies_bouldin_score(preprocessed_df, predictions_array)
+        db[testcase] = db_index
+
+    return (silhouette, db)
+
+
+def CLARANS(df,k, numlocal = 2, maxneighbor = 100):
+    print("Running CLARANS")
     mincost = math.inf
     i = 1
     bestnode = None
-
     while i <= numlocal:
         print('FINDING MINIMUM = ' + str(i))
         current = df.sample(n=k)
         [clusters, clusters2] = cluster_asignment(k, df, current)
         current_cost = compute_total_cost(k, clusters, current)
         print('Current cost = ' + str(current_cost))
-
         j = 1
         mincost_local = math.inf
         while j <= maxneighbor:
@@ -125,9 +155,6 @@ def CLARANS(k, numlocal, maxneighbor, df):
         if bestnode is None:  # if in this iteration no better node than random is found
             bestnode = current
         print('MinCost TOTAL = ' + str(mincost))
-
         i += 1
-
     bestclusters = cluster_asignment(k, df, bestnode)[0]
-
     return bestnode, bestclusters
