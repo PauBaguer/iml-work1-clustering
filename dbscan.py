@@ -5,8 +5,8 @@ from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
-def dbscan(X, eps, min_samples):
-    db = DBSCAN(eps=eps, min_samples=min_samples).fit(X)
+def dbscan(X, eps, min_samples, metric):
+    db = DBSCAN(eps=eps, min_samples=min_samples, metric=metric).fit(X)
     labels = db.labels_
     return labels
 
@@ -52,7 +52,7 @@ def dbscan(X, eps, min_samples):
     # plt.title(f"DBSCAN. Nº clusters: {n_clusters_}")
     # plt.show()
 
-def plot_data(X, labels):
+def plot_data(X, labels, dataset_name, metric):
 
     # Number of clusters in labels, ignoring noise if present.
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
@@ -106,26 +106,33 @@ def plot_data(X, labels):
 
 
 
-    plt.title(f"Preprocessed data. Nº clusters: {n_clusters_}")
+    plt.title(f"DBSCAN {dataset_name}, metric {metric}. Nº clusters: {n_clusters_}")
     plt.show()
 
-def graph_dbscan_eps(df, eps_range):
+def graph_dbscan_eps(df, eps_range, gs, metric):
 
     n_clusters_arr = []
     n_noise_arr = []
+    accuracy_arr = []
     for eps in eps_range:
          print(eps)
-         labels = dbscan(df, eps, 100)
+         labels = dbscan(df, eps, 100, metric)
+         acc = accuracy(gs, labels)
          n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
          n_noise_ = list(labels).count(-1)
          n_clusters_arr.append(n_clusters_)
          n_noise_arr.append(n_noise_)
+         accuracy_arr.append(acc)
 
 
-    results_df = pd.DataFrame({"eps": eps_range, "n_clusters":n_clusters_arr, "n_noise":n_noise_arr})
+    results_df = pd.DataFrame({"eps": eps_range, "n_clusters":n_clusters_arr, "n_noise":n_noise_arr, "accuracy": accuracy_arr})
 
     plt.plot(results_df["eps"], results_df["n_clusters"], marker='x')
-    plt.title("DBSCAN nº of clusters vs Epsilon")
+    plt.title(f"DBSCAN, metric {metric}, nº of clusters vs Epsilon")
+    plt.show()
+
+    plt.plot(results_df["eps"], results_df["accuracy"], marker='x')
+    plt.title(f"DBSCAN, metric {metric}, accuracy vs Epsilon")
     plt.show()
 
 def accuracy(gs, labels):
@@ -137,5 +144,6 @@ def accuracy(gs, labels):
     acc = count / len(gs)
     print(f'Count {count}')
     print(f'Accuracy {acc}')
+    return acc
 
 

@@ -41,21 +41,21 @@ def plot_data(X, labels):
         points_per_cluster[l] = list(labels).count(l)
         print(f"Cluster {l}: {points_per_cluster[l]} points")
     #colors = ["#8c510a","#d8b365","#f6e8c3","#c7eae5","#5ab4ac","#01665e","#e66101","#fdb863","#a6dba0","#008837", "red"]
-    colors = cm.rainbow(np.linspace(0, 1, len(unique_labels)))
-    i=0
-    for row in X:
-        plt.plot(
-            row[0],
-            row[1],
-            ".",
-            color=colors[labels[i]],
-            markersize=3,
-            zorder=labels[i]
-        )
-        # if i > 100:
-        #     plt.show()
-        #     return
-        i = i+1
+    # colors = cm.rainbow(np.linspace(0, 1, len(unique_labels)))
+    # i=0
+    # for row in X:
+    #     plt.plot(
+    #         row[0],
+    #         row[1],
+    #         ".",
+    #         color=colors[labels[i]],
+    #         markersize=3,
+    #         zorder=labels[i]
+    #     )
+    #     # if i > 100:
+    #     #     plt.show()
+    #     #     return
+    #     i = i+1
 
 
 

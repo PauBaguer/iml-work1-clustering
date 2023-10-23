@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     #print(adult_df.shape)
     # print(vowel_df.shape)
-    print(pen_based_df.shape)
+    # print(pen_based_df.shape)
 
 
     #####################################
@@ -57,27 +57,40 @@ if __name__ == '__main__':
     print("#####################################")
     print("#          DBSCAN adult df          #")
     print("#####################################")
-    adult_dbscan_labels = dbscan.dbscan(preprocessed_adult_df, 1.5, 60)
-    dbscan.plot_data(preprocessed_adult_df, adult_dbscan_labels)
-    dbscan.accuracy(preprocessed_gs_adult_df, adult_dbscan_labels)
-    dbscan.graph_dbscan_eps(preprocessed_adult_df, np.arange(1, 2, 0.1))
-    
-    print("#####################################")
-    print("#          DBSCAN vowel df          #")
-    print("#####################################")
-    vowel_dbscan_labels = dbscan.dbscan(preprocessed_vowel_df, 1.43, 15)
-    dbscan.plot_data(preprocessed_vowel_df, vowel_dbscan_labels)
-    dbscan.accuracy(preprocessed_gs_vowel_df, vowel_dbscan_labels)
-    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(1.2, 1.6, 0.02))
-    
-    print("#####################################")
-    print("#          DBSCAN pen df            #")
-    print("#####################################")
-
-    pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.42, 9)
-    dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels)
-    dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
-    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.4, 0.5, 0.01))
+    # adult_dbscan_labels = dbscan.dbscan(preprocessed_adult_df, 1.6, 216, "euclidean") # 60
+    # dbscan.plot_data(preprocessed_adult_df, adult_dbscan_labels, "Adult", "euclidean")
+    # dbscan.accuracy(preprocessed_gs_adult_df, adult_dbscan_labels)
+    # dbscan.graph_dbscan_eps(preprocessed_adult_df, np.arange(1, 2, 0.1))
+    # 
+    # print("#####################################")
+    # print("#          DBSCAN vowel df          #")
+    # print("#####################################")
+    # vowel_dbscan_labels = dbscan.dbscan(preprocessed_vowel_df, 1.43, 58, "euclidean")
+    # dbscan.plot_data(preprocessed_vowel_df, vowel_dbscan_labels, "Vowel", "euclidean")
+    # dbscan.accuracy(preprocessed_gs_vowel_df, vowel_dbscan_labels)
+    # dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(1.2, 1.6, 0.02))
+    # 
+    # print("#####################################")
+    # print("#          DBSCAN pen df            #")
+    # print("#####################################")
+    # 
+    # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean") #0.415, 32
+    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean")
+    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
+    #
+    # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.01, 32, "cosine")  # 0.415, 32
+    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "cosine")
+    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
+    #
+    # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.95, 32, "manhattan")  # 0.415, 32
+    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "manhattan")
+    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
+    # print("EUCLIDEAN")
+    # dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.4, 0.5, 0.01), preprocessed_gs_pen_df, "euclidean")
+    # print("COSINE")
+    # dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.005, 0.02, 0.001), preprocessed_gs_pen_df, "cosine")
+    # print("MANHATTAN")
+    # dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.9, 1.35, 0.01), preprocessed_gs_pen_df, "manhattan")
 
 
 
@@ -85,6 +98,24 @@ if __name__ == '__main__':
     #                Birch              #
     #####################################
 
-    # birch.birch(preprocessed_adult_df)
-    # birch.birch(preprocessed_vowel_df)
-    # birch.birch(preprocessed_pen_df)
+    # print("#####################################")
+    # print("#           Birch adult df          #")
+    # print("#####################################")
+    #
+    # adult_birch_labels = birch.birch(preprocessed_adult_df, 0.5, 2)
+    # birch.plot_data(preprocessed_adult_df, adult_birch_labels)
+    # birch.accuracy(preprocessed_gs_adult_df, adult_birch_labels)
+    #
+    # print("#####################################")
+    # print("#           Birch vowel df          #")
+    # print("#####################################")
+    # vowel_birch_labels = birch.birch(preprocessed_vowel_df, 0.5, 11)#0.92
+    # birch.plot_data(preprocessed_vowel_df, vowel_birch_labels)
+    # birch.accuracy(preprocessed_gs_vowel_df, vowel_birch_labels)
+    #
+    # print("#####################################")
+    # print("#           Birch pen df            #")
+    # print("#####################################")
+    # pen_birch_labels = birch.birch(preprocessed_pen_df, 0.5, 10)
+    # birch.plot_data(preprocessed_pen_df, pen_birch_labels)
+    # birch.accuracy(preprocessed_gs_pen_df, pen_birch_labels)
