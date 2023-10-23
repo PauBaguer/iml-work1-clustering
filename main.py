@@ -73,9 +73,25 @@ if __name__ == '__main__':
     # print("#####################################")
     # print("#          DBSCAN pen df            #")
     # print("#####################################")
-    # 
-    # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean") #0.415, 32
-    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean")
+    #
+    # print("Auto")
+    # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean", "auto") #0.415, 32
+    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "auto")
+    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
+    # print()
+    # print("ball_tree")
+    # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean", "ball_tree")  # 0.415, 32
+    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "ball_tree")
+    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
+    # print()
+    # print("kd_tree")
+    # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean", "kd_tree")  # 0.415, 32
+    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "kd_tree")
+    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
+    # print()
+    # print("Brute")
+    # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean", "brute")  # 0.415, 32
+    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "brute")
     # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
     #
     # pen_dbscan_labels = dbscan.dbscan(preprocessed_pen_df, 0.01, 32, "cosine")  # 0.415, 32

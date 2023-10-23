@@ -4,10 +4,15 @@ from sklearn import metrics
 from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import time
 
-def dbscan(X, eps, min_samples, metric):
-    db = DBSCAN(eps=eps, min_samples=min_samples, metric=metric).fit(X)
+def dbscan(X, eps, min_samples, metric, algorithm):
+    print(f"Params: eps: {eps}, min_samples: {min_samples}, metric: {metric}, algorithm: {algorithm}")
+    start = time.time()
+    db = DBSCAN(eps=eps, min_samples=min_samples, metric=metric, algorithm=algorithm).fit(X)
     labels = db.labels_
+    end = time.time()
+    print(f"DBSCAN execution elapsed: {end - start}s")
     return labels
 
 
@@ -52,7 +57,7 @@ def dbscan(X, eps, min_samples, metric):
     # plt.title(f"DBSCAN. Nº clusters: {n_clusters_}")
     # plt.show()
 
-def plot_data(X, labels, dataset_name, metric):
+def plot_data(X, labels, dataset_name, metric, algorithm):
 
     # Number of clusters in labels, ignoring noise if present.
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
@@ -66,6 +71,10 @@ def plot_data(X, labels, dataset_name, metric):
     print("Estimated number of points per cluster")
     points_per_cluster = {}
     unique_labels = set(labels)
+    unique_labels_wo_noise_count = len(unique_labels)
+    if -1 in unique_labels:
+        unique_labels_wo_noise_count = unique_labels_wo_noise_count - 1
+
 
     for l in unique_labels:
         if l == -1:
@@ -76,7 +85,7 @@ def plot_data(X, labels, dataset_name, metric):
         print(f"Cluster {l}: {points_per_cluster[l]} points")
 
     #colors = ["#8c510a","#d8b365","#f6e8c3","#c7eae5","#5ab4ac","#01665e","#e66101","#fdb863","#a6dba0","#008837", "red"]
-    colors = cm.rainbow(np.linspace(0, 1, len(unique_labels)))
+    colors = cm.rainbow(np.linspace(0, 1, unique_labels_wo_noise_count))
 
     i=0
     for row in X:
@@ -106,7 +115,7 @@ def plot_data(X, labels, dataset_name, metric):
 
 
 
-    plt.title(f"DBSCAN {dataset_name}, metric {metric}. Nº clusters: {n_clusters_}")
+    plt.title(f"DBSCAN {dataset_name}, metric {metric}, algorithm {algorithm}. Nº clusters: {n_clusters_}")
     plt.show()
 
 def graph_dbscan_eps(df, eps_range, gs, metric):
@@ -129,10 +138,12 @@ def graph_dbscan_eps(df, eps_range, gs, metric):
 
     plt.plot(results_df["eps"], results_df["n_clusters"], marker='x')
     plt.title(f"DBSCAN, metric {metric}, nº of clusters vs Epsilon")
+    plt.grid()
     plt.show()
 
     plt.plot(results_df["eps"], results_df["accuracy"], marker='x')
     plt.title(f"DBSCAN, metric {metric}, accuracy vs Epsilon")
+    plt.grid()
     plt.show()
 
 def accuracy(gs, labels):
