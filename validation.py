@@ -4,10 +4,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, davies_bouldin_score, silhouette_score
 from sklearn.metrics.cluster import contingency_matrix, adjusted_rand_score, normalized_mutual_info_score
-import fcmeans
-import pam
-import kmodes
-import kmeans
+import fcmeans, pam, kmodes, kmeans, clarans
 
 class validation():
     def __init__(self, algorithm, data, labels, v, k):
@@ -22,7 +19,7 @@ class validation():
         for n_clusters in range(2,crange+1):
             if self.algorithm == fcmeans.fcm:
                 out = self.algorithm(self.data, n_clusters)
-                labels = out[0]
+                labels = out[0].argmax(axis=1)
             elif self.algorithm == pam.pam:   
                 data = pd.DataFrame(self.data)
                 out = self.algorithm(data, n_clusters)
@@ -33,6 +30,9 @@ class validation():
             elif self.algorithm == kmeans.kmeans:
                 out = self.algorithm(self.data, n_clusters)
                 labels = out[1]
+            elif self.algorithm == clarans.CLARANS:
+                out = self.algorithm(self.data, n_clusters)
+                labels = clarans.pre_validation(out[1])
                 
             DBS = davies_bouldin_score(self.data, labels)
             SHC = silhouette_score(self.data, labels)
