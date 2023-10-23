@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, davies_bouldin_score, silhouette_score
-from sklearn.metrics.cluster import contingency_matrix, adjusted_rand_score, normalized_mutual_info_score
+from sklearn.metrics.cluster import contingency_matrix, adjusted_rand_score, normalized_mutual_info_score, homogeneity_score
 import fcmeans, pam, kmodes, kmeans, clarans
 
 class validation():
@@ -65,7 +65,7 @@ class validation():
         plt.show()
         
     def gold_standard_comparison(self, labels_gold):
-        purity = np.sum(np.amax(contingency_matrix(labels_gold, self.labels), axis=0)) / np.sum(contingency_matrix(labels_gold, self.labels))
+        purity = homogeneity_score(labels_gold, self.labels)
         adjusted_rand_score_gold = adjusted_rand_score(labels_gold, self.labels)
         normalized_mutual_info_score_gold = normalized_mutual_info_score(labels_gold, self.labels)
         print(f'Purity GS: {purity}')
