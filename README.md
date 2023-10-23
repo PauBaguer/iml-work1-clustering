@@ -1,29 +1,37 @@
 # IML: Work 1 - Clustering exercise
 
+## Team
+* Pau Baguer Fàbrega
+* Agustín Conesa Celdrán
+* Laia Pujol Ventosa
+* Clàudia-Li Valiente López
 
 ## Install env
+Open folder in terminal
+```bash
+cd <root_folder_of_project>/
+```
+2. Create virtual env
+```bash
+python3 -m venv venv/
+```
+3. Open virtual env
+```bash
+source venv/bin/activate
+```bash
+pip install -r requirements.txt
+```
 
-`pip install -r requirements.txt`
+## Execute scripts
+1.open virtual env
+```bash
+source venv/bin/activate
+```
+2. Running the script (add subpoints if you have more than one main).
+ ```bash
+ python3 main.py
+ ```
 
-## TODO
-
-- Preprocessing
-  - missing values
-    - interpolation - done (used)
-    - erase row - done
-  - categorical to numerical
-    - label encoding - done (not useful)
-    - one hot encoding - done (used)
-  - numerical: scale
-    - standardization
-    - mean normalization - done (used)
-    - min-max scaling - done (used)
-    - unit vector
-- Clustering algos:
-  - DBSCAN - code done
-  - Birch
-  - K-means (our implementation)
-  - K-modes
-  - K-medoids or K-prototypes, or others
-  - fuzzy C-means or possibilistic C-means
-- Validation methods
+3. Close virtual env
+```bash
+deact
