@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 import preprocessing
 import dbscan, birch
-import fcmeans, kmeans, pam, kmodes
+import fcmeans, kmeans, pam, kmodes, clarans
 from validation import validation
 import skfuzzy as fuzz
 
@@ -117,17 +117,50 @@ if __name__ == '__main__':
     # pen_birch_labels = birch.birch(preprocessed_pen_df, 0.5, 10)
     # birch.plot_data(preprocessed_pen_df, pen_birch_labels)
     # birch.accuracy(preprocessed_gs_pen_df, pen_birch_labels)
-    
+
     print('#####################################')
-    print('#           Fuzzy Kmeans            #')
-    print('#####################################')    
-    
+    print('#              CLARANS              #')
+    print('#####################################')
+
+    # numlocal = 2
+    # maxneighbor = 10
+    #
+    # k_adult = 2
+    # k_vowel = 11
+    # k_pen = 10
+
+    # print('Adult dataset')
+    # preproc_adult_df = pd.DataFrame(preprocessed_adult_df)
+    # bestnode_adult, bestclusters_adult = clarans.CLARANS(preproc_adult_df, k_adult, numlocal, maxneighbor)
+    # pred_adult = clarans.pre_validation(bestclusters_adult)
+    # validatorclarans_adult = validation(clarans.CLARANS, preprocessed_adult_df, pred_adult, 0, 0)
+    # validatorclarans_adult.gold_standard_comparison(preprocessed_gs_adult_df)
+
+    # print('Vowel dataset')
+    # preproc_vowel_df = pd.DataFrame(preprocessed_vowel_df)
+    # bestnode_vowel, bestclusters_vowel = clarans.CLARANS(preproc_vowel_df, k_vowel, numlocal, maxneighbor)
+    # pred_vowel = clarans.pre_validation(bestclusters_vowel)
+    # validatorclarans_vowel = validation(clarans.CLARANS, preprocessed_vowel_df, pred_vowel, k_vowel, k_vowel)
+    # validatorclarans_vowel.gold_standard_comparison(preprocessed_gs_vowel_df)
+
+    # print('Pen dataset')
+    # preproc_pen_df = pd.DataFrame(preprocessed_pen_df)
+    # bestnode_pen, bestclusters_pen = clarans.CLARANS(preproc_pen_df, k_pen, numlocal, maxneighbor)
+    # pred_pen = clarans.pre_validation(bestclusters_pen)
+    # validatorclarans_pen = validation(clarans.CLARANS, preprocessed_pen_df, pred_pen, 0, 0)
+    # validatorclarans_pen.gold_standard_comparison(preprocessed_gs_pen_df)
+
+
+    # print('#####################################')
+    # print('#           Fuzzy Kmeans            #')
+    # print('#####################################')
+
     m = 2
     n_clusters = preprocessed_gs_vowel_df[preprocessed_gs_vowel_df.argmax()] + 1
     X_vowel = preprocessed_vowel_df
     uown_vowel, v_vowel, d_vowel = fcmeans.fcm(X_vowel, n_clusters, m, 10000)
     cntr_vowel, u_vowel, _, d_vowel, _, _, _ = fuzz.cluster.cmeans(X_vowel.T, n_clusters, m, error=1e-4, maxiter=10000)
-    
+
     validatorfcm = validation(fcmeans.fcm, preprocessed_vowel_df, uown_vowel.argmax(axis=1), 0, 0)
     validatorfcm.csearch(15, 'david bouldin score', 'Vowel dataset')
     validatorfcm.csearch(15, 'silhouette score', 'Vowel dataset')
@@ -139,7 +172,7 @@ if __name__ == '__main__':
     X_adult = preprocessed_adult_df
     uown_adult, v_adult, d_adult = fcmeans.fcm(X_adult, n_clusters, m, 10000)
     cntr_adult, u_adult, _, d_adult, _, _, _ = fuzz.cluster.cmeans(X_adult.T, n_clusters, m, error=1e-4, maxiter=10000)
-    
+
     validatorfcm = validation(fcmeans.fcm, preprocessed_adult_df, uown_adult.argmax(axis=1), 0, 0)
     validatorfcm.csearch(5, 'david bouldin score', 'Adult dataset')
     validatorfcm.csearch(5, 'silhouette score', 'Adult dataset')
@@ -151,7 +184,7 @@ if __name__ == '__main__':
     X_pen = preprocessed_pen_df
     uown_pen, v_pen, d_pen = fcmeans.fcm(X_pen, n_clusters, m, 10000)
     cntr_pen, u_pen, _, d_pen, _, _, _ = fuzz.cluster.cmeans(X_pen.T, n_clusters, m, error=1e-4, maxiter=10000)
-    
+
     validatorfcm = validation(fcmeans.fcm, preprocessed_pen_df, uown_pen.argmax(axis=1), 0, 0)
     validatorfcm.csearch(5, 'david bouldin score', 'Pen dataset')
     validatorfcm.csearch(5, 'silhouette score, Pen dataset')

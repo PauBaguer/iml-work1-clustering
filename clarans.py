@@ -1,5 +1,4 @@
 from pam import *
-from clara import *
 from scipy.io import arff
 import numpy as np
 import pandas as pd
@@ -95,10 +94,10 @@ def plot_test_cases_results(preproc_df, preprocessed_df, preprocessed_gs, result
     db = {}
 
     for testcase in range(len(result)):
-        bestnode = result[testcase][0][4][0]
-        numlocal = result[testcase][0][0]
-        maxneighbor = result[testcase][0][1]
-        k = result[testcase][0][2]
+        bestnode = result[testcase][4][0]
+        numlocal = result[testcase][0]
+        maxneighbor = result[testcase][1]
+        k = result[testcase][2]
 
         bestnode_arr = bestnode.to_numpy()
         for i in range(len(preprocessed_df[0]) - 1):
@@ -108,7 +107,7 @@ def plot_test_cases_results(preproc_df, preprocessed_df, preprocessed_gs, result
             plt.title(f'K = {k}; numlocal = {numlocal}, maxneighbor = {maxneighbor}, Variables {i} {i + 1}')
             plt.show()
 
-        bestclusters = result[testcase][0][4][1]
+        bestclusters = result[testcase][4][1]
         predictions_array = pre_validation(bestclusters)
 
         silhouette_avg = metrics.silhouette_score(preprocessed_df, predictions_array)
@@ -141,7 +140,6 @@ def CLARANS(df,k, numlocal = 2, maxneighbor = 100):
             print('Cmp = ' + str(cost_diff))
             if cost_diff < 0:
                 current = S
-                # mincost_local_diff = cost_diff
                 clusters = new_clusters
                 clusters2 = new_clusters2
                 j = 1
