@@ -6,6 +6,8 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, davies_bou
 from sklearn.metrics.cluster import contingency_matrix, adjusted_rand_score, normalized_mutual_info_score
 import fcmeans
 import pam
+import kmodes
+import kmeans
 
 class validation():
     def __init__(self, algorithm, data, labels, v, k):
@@ -21,10 +23,16 @@ class validation():
             if self.algorithm == fcmeans.fcm:
                 out = self.algorithm(self.data, n_clusters)
                 labels = out[0]
-            if self.algorithm == pam.pam:   
+            elif self.algorithm == pam.pam:   
                 data = pd.DataFrame(self.data)
                 out = self.algorithm(data, n_clusters)
                 labels = out[0]
+            elif self.algorithm == kmodes.kmodes:
+                out = self.algorithm(self.data, n_clusters)
+                labels = out[1]
+            elif self.algorithm == kmeans.kmeans:
+                out = self.algorithm(self.data, n_clusters)
+                labels = out[1]
                 
             DBS = davies_bouldin_score(self.data, labels)
             SHC = silhouette_score(self.data, labels)
@@ -57,10 +65,13 @@ class validation():
         plt.show()
         
     def gold_standard_comparison(self, labels_gold):
+        purity = np.sum(np.amax(contingency_matrix(labels_gold, self.labels), axis=0)) / np.sum(contingency_matrix(labels_gold, self.labels))
         adjusted_rand_score_gold = adjusted_rand_score(labels_gold, self.labels)
         normalized_mutual_info_score_gold = normalized_mutual_info_score(labels_gold, self.labels)
+        print(f'Purity GS: {purity}')
         print(f'Adjusted rand score GS: {adjusted_rand_score_gold}')
         print(f'Normalized mutual info score GS: {normalized_mutual_info_score_gold}')
+        print()
         
         cmatrix = confusion_matrix(labels_gold, self.labels)
         disp_vowel = ConfusionMatrixDisplay(cmatrix)
