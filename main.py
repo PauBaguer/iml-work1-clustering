@@ -3,14 +3,12 @@ import numpy as np
 import pandas as pd
 import scipy as sc
 import matplotlib.pyplot as plt
-import seaborn
-import math
 
 import preprocessing
 import dbscan, birch
-
-
-
+import fcmeans, kmeans, pam, kmodes
+from validation import validation
+import skfuzzy as fuzz
 
 def load_arff(f_name):
     print(f'Opening, {f_name}')
@@ -119,3 +117,53 @@ if __name__ == '__main__':
     # pen_birch_labels = birch.birch(preprocessed_pen_df, 0.5, 10)
     # birch.plot_data(preprocessed_pen_df, pen_birch_labels)
     # birch.accuracy(preprocessed_gs_pen_df, pen_birch_labels)
+    
+    print('#####################################')
+    print('#           Fuzzy Kmeans            #')
+    print('#####################################')    
+    
+    m = 2
+    n_clusters = preprocessed_gs_vowel_df[preprocessed_gs_vowel_df.argmax()] + 1
+    X_vowel = preprocessed_vowel_df
+    uown_vowel, v_vowel, d_vowel = fcmeans.fcm(X_vowel, n_clusters, m, 10000)
+    cntr_vowel, u_vowel, _, d_vowel, _, _, _ = fuzz.cluster.cmeans(X_vowel.T, n_clusters, m, error=1e-4, maxiter=10000)
+    
+    validatorfcm = validation(fcmeans.fcm, preprocessed_vowel_df, uown_vowel.argmax(axis=1), 0, 0)
+    validatorfcm.csearch(15, 'david bouldin score', 'Vowel dataset')
+    validatorfcm.csearch(15, 'silhouette score', 'Vowel dataset')
+    print('Vowel dataset')
+    validatorfcm.library_comparison(u_vowel.argmax(axis=0))
+    validatorfcm.gold_standard_comparison(preprocessed_gs_vowel_df)
+
+    n_clusters = preprocessed_gs_adult_df[preprocessed_gs_adult_df.argmax()] + 1
+    X_adult = preprocessed_adult_df
+    uown_adult, v_adult, d_adult = fcmeans.fcm(X_adult, n_clusters, m, 10000)
+    cntr_adult, u_adult, _, d_adult, _, _, _ = fuzz.cluster.cmeans(X_adult.T, n_clusters, m, error=1e-4, maxiter=10000)
+    
+    validatorfcm = validation(fcmeans.fcm, preprocessed_adult_df, uown_adult.argmax(axis=1), 0, 0)
+    validatorfcm.csearch(5, 'david bouldin score', 'Adult dataset')
+    validatorfcm.csearch(5, 'silhouette score', 'Adult dataset')
+    print('Adult dataset')
+    validatorfcm.library_comparison(u_adult.argmax(axis=0))
+    validatorfcm.gold_standard_comparison(preprocessed_gs_adult_df)
+
+    n_clusters = preprocessed_gs_pen_df[preprocessed_gs_pen_df.argmax()] + 1
+    X_pen = preprocessed_pen_df
+    uown_pen, v_pen, d_pen = fcmeans.fcm(X_pen, n_clusters, m, 10000)
+    cntr_pen, u_pen, _, d_pen, _, _, _ = fuzz.cluster.cmeans(X_pen.T, n_clusters, m, error=1e-4, maxiter=10000)
+    
+    validatorfcm = validation(fcmeans.fcm, preprocessed_pen_df, uown_pen.argmax(axis=1), 0, 0)
+    validatorfcm.csearch(5, 'david bouldin score', 'Pen dataset')
+    validatorfcm.csearch(5, 'silhouette score, Pen dataset')
+    print('Pen dataset')
+    validatorfcm.library_comparison(u_pen.argmax(axis=0))
+    validatorfcm.gold_standard_comparison(preprocessed_gs_pen_df)
+
+    difference_vowel = np.sqrt(np.sum(np.square(uown_vowel - u_vowel.T))/u_vowel.shape[0])
+    difference_adult = np.sqrt(np.sum(np.square(uown_adult - u_adult.T))/u_adult.shape[0])
+    difference_pen = np.sqrt(np.sum(np.square(uown_pen - u_pen.T))/u_pen.shape[0])
+    print(f'Difference vowel U matix: {difference_vowel}')
+    print(f'Difference adult U matix: {difference_adult}')
+    print(f'Difference pen U matix: {difference_pen}')
+    print()
+    
