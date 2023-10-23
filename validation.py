@@ -48,6 +48,7 @@ class validation():
         plt.plot(range(2,crange+1), scores)
         plt.xlabel('Number of clusters')
         plt.ylabel(args[0])
+        plt.title(args[1])
         plt.show()
             
     

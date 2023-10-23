@@ -129,8 +129,8 @@ if __name__ == '__main__':
     cntr_vowel, u_vowel, _, d_vowel, _, _, _ = fuzz.cluster.cmeans(X_vowel.T, n_clusters, m, error=1e-4, maxiter=10000)
     
     validatorfcm = validation(fcmeans.fcm, preprocessed_vowel_df, uown_vowel.argmax(axis=1), 0, 0)
-    validatorfcm.csearch(5, 'david bouldin score')
-    validatorfcm.csearch(5, 'silhouette score')
+    validatorfcm.csearch(15, 'david bouldin score', 'Vowel dataset')
+    validatorfcm.csearch(15, 'silhouette score', 'Vowel dataset')
     print('Vowel dataset')
     validatorfcm.library_comparison(u_vowel.argmax(axis=0))
     validatorfcm.gold_standard_comparison(preprocessed_gs_vowel_df)
@@ -141,8 +141,8 @@ if __name__ == '__main__':
     cntr_adult, u_adult, _, d_adult, _, _, _ = fuzz.cluster.cmeans(X_adult.T, n_clusters, m, error=1e-4, maxiter=10000)
     
     validatorfcm = validation(fcmeans.fcm, preprocessed_adult_df, uown_adult.argmax(axis=1), 0, 0)
-    validatorfcm.csearch(5, 'david bouldin score')
-    validatorfcm.csearch(5, 'silhouette score')
+    validatorfcm.csearch(5, 'david bouldin score', 'Adult dataset')
+    validatorfcm.csearch(5, 'silhouette score', 'Adult dataset')
     print('Adult dataset')
     validatorfcm.library_comparison(u_adult.argmax(axis=0))
     validatorfcm.gold_standard_comparison(preprocessed_gs_adult_df)
@@ -153,8 +153,8 @@ if __name__ == '__main__':
     cntr_pen, u_pen, _, d_pen, _, _, _ = fuzz.cluster.cmeans(X_pen.T, n_clusters, m, error=1e-4, maxiter=10000)
     
     validatorfcm = validation(fcmeans.fcm, preprocessed_pen_df, uown_pen.argmax(axis=1), 0, 0)
-    validatorfcm.csearch(5, 'david bouldin score')
-    validatorfcm.csearch(5, 'silhouette score')
+    validatorfcm.csearch(5, 'david bouldin score', 'Pen dataset')
+    validatorfcm.csearch(5, 'silhouette score, Pen dataset')
     print('Pen dataset')
     validatorfcm.library_comparison(u_pen.argmax(axis=0))
     validatorfcm.gold_standard_comparison(preprocessed_gs_pen_df)
