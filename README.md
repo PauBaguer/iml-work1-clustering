@@ -23,6 +23,10 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+5. Close virtual env
+```bash
+deactivate
+```
 
 ## Execute scripts
 1.open virtual env
@@ -36,4 +40,5 @@ source venv/bin/activate
 
 3. Close virtual env
 ```bash
-deact
+deactivate
+```
