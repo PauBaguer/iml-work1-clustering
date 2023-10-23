@@ -25,7 +25,7 @@ def erase_rows_with_missing_values(df):
     return df_dropped_categorical
 
 
-def plot_data(X, labels):
+def plot_data(X, labels, dataset_name):
     # Number of clusters in labels, ignoring noise if present.
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
     n_noise_ = list(labels).count(-1)
@@ -40,34 +40,35 @@ def plot_data(X, labels):
     for l in unique_labels:
         points_per_cluster[l] = list(labels).count(l)
         print(f"Cluster {l}: {points_per_cluster[l]} points")
-    #colors = ["#8c510a","#d8b365","#f6e8c3","#c7eae5","#5ab4ac","#01665e","#e66101","#fdb863","#a6dba0","#008837", "red"]
-    # colors = cm.rainbow(np.linspace(0, 1, len(unique_labels)))
-    # i=0
-    # for row in X:
-    #     plt.plot(
-    #         row[0],
-    #         row[1],
-    #         ".",
-    #         color=colors[labels[i]],
-    #         markersize=3,
-    #         zorder=labels[i]
-    #     )
-    #     # if i > 100:
-    #     #     plt.show()
-    #     #     return
-    #     i = i+1
+    return # to remove
+    colors = cm.rainbow(np.linspace(0, 1, len(unique_labels)))
+    i=0
+    for row in X:
+        plt.plot(
+            row[0],
+            row[1],
+            ".",
+            color=colors[labels[i]],
+            markersize=3,
+            zorder=labels[i]
+        )
+        # if i > 100:
+        #     plt.show()
+        #     return
+        i = i+1
 
 
 
 
 
-    plt.title(f"Preprocessed data. Nº clusters: {n_clusters_}")
+    plt.title(f"Preprocessed {dataset_name} dataset. Nº clusters: {n_clusters_}")
+    plt.savefig(f"figures/preprocessing/{dataset_name}.png")
     plt.show()
 
 #####################################
 #   Main preprocessing function     #
 #####################################
-def preprocess_df(df):
+def preprocess_df(df, dataset_name):
     prepped_df = df#erase_rows_with_missing_values(df)
 
     classification_goldstandard_cols = ["class", "a17", "Class"] # The columns to take out of preprocessing bc they are the final gold standard classification.
@@ -115,6 +116,7 @@ def preprocess_df(df):
 
     preprocessor.fit(prepped_df)
     transformed_df = preprocessor.transform(prepped_df)
+
     print()
 
     goldstandard_preprocessor = pre.LabelEncoder()
@@ -122,7 +124,7 @@ def preprocess_df(df):
     goldstandard_preprocessor.fit(prepped_df[goldstandard_col].values.ravel())
     transformed_goldstandard_col_df = goldstandard_preprocessor.transform(prepped_df[goldstandard_col].values.ravel())
 
-    plot_data(transformed_df, transformed_goldstandard_col_df)
+    plot_data(transformed_df, transformed_goldstandard_col_df, dataset_name)
 
 
     return transformed_df, transformed_goldstandard_col_df, preprocessor

@@ -115,17 +115,18 @@ def plot_data(X, labels, dataset_name, metric, algorithm):
 
 
 
-    plt.title(f"DBSCAN {dataset_name}, metric {metric}, algorithm {algorithm}. Nº clusters: {n_clusters_}")
+    plt.title(f"DBSCAN {dataset_name}, metric: {metric}, algorithm {algorithm}. Nº clusters: {n_clusters_}")
+    plt.savefig(f"figures/dbscan/{dataset_name}-graph.png")
     plt.show()
 
-def graph_dbscan_eps(df, eps_range, gs, metric):
+def graph_dbscan_eps(df, eps_range, gs, metric, dataset_name):
 
     n_clusters_arr = []
     n_noise_arr = []
     accuracy_arr = []
     for eps in eps_range:
          print(eps)
-         labels = dbscan(df, eps, 100, metric)
+         labels = dbscan(df, eps, 100, metric, "auto")
          acc = accuracy(gs, labels)
          n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
          n_noise_ = list(labels).count(-1)
@@ -137,13 +138,15 @@ def graph_dbscan_eps(df, eps_range, gs, metric):
     results_df = pd.DataFrame({"eps": eps_range, "n_clusters":n_clusters_arr, "n_noise":n_noise_arr, "accuracy": accuracy_arr})
 
     plt.plot(results_df["eps"], results_df["n_clusters"], marker='x')
-    plt.title(f"DBSCAN, metric {metric}, nº of clusters vs Epsilon")
+    plt.title(f"DBSCAN, metric: {metric}, nº of clusters vs Epsilon")
     plt.grid()
+    plt.savefig(f"figures/dbscan/{dataset_name}-{metric}-nclusters.png")
     plt.show()
 
     plt.plot(results_df["eps"], results_df["accuracy"], marker='x')
-    plt.title(f"DBSCAN, metric {metric}, accuracy vs Epsilon")
+    plt.title(f"DBSCAN {dataset_name}, metric: {metric}, accuracy vs Epsilon")
     plt.grid()
+    plt.savefig(f"figures/dbscan/{dataset_name}-{metric}-accuracy.png")
     plt.show()
 
 def accuracy(gs, labels):

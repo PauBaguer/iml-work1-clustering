@@ -10,7 +10,7 @@ def birch(X, threshold, n_clusters):
     return labels
 
 
-def plot_data(X, labels):
+def plot_data(X, labels, dataset_name):
 
     # Number of clusters in labels, ignoring noise if present.
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
@@ -33,7 +33,7 @@ def plot_data(X, labels):
         points_per_cluster[l] = list(labels).count(l)
         print(f"Cluster {l}: {points_per_cluster[l]} points")
 
-    #colors = ["#8c510a","#d8b365","#f6e8c3","#c7eae5","#5ab4ac","#01665e","#e66101","#fdb863","#a6dba0","#008837", "red"]
+
     colors = cm.rainbow(np.linspace(0, 1, len(unique_labels)))
 
     i=0
@@ -56,12 +56,10 @@ def plot_data(X, labels):
                 markersize=3,
                 zorder=labels[i]
             )
-        # if i > 100:
-        #     plt.show()
-        #     return
         i = i+1
 
-    plt.title(f"Birch. Nº clusters: {n_clusters_}")
+    plt.title(f"BIRCH {dataset_name}, Nº clusters: {n_clusters_}")
+    plt.savefig(f"figures/birch/{dataset_name}-graph.png")
     plt.show()
 
 def accuracy(gs, labels):
