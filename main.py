@@ -55,7 +55,7 @@ if __name__ == '__main__':
     adult_dbscan_labels, adult_dbscan = dbscan.dbscan(preprocessed_adult_df, 1.6, 216, "euclidean", "auto")  # 60
     dbscan.plot_data(preprocessed_adult_df, adult_dbscan_labels, "Adult", "euclidean", "auto")
     dbscan.accuracy(preprocessed_gs_adult_df, adult_dbscan_labels)
-    # dbscan.graph_dbscan_eps(preprocessed_adult_df, np.arange(1, 2, 0.1), preprocessed_gs_adult_df, "euclidean", "Adult")
+    dbscan.graph_dbscan_eps(preprocessed_adult_df, np.arange(1, 2, 0.1), 216, preprocessed_gs_adult_df, "euclidean", "Adult")
 
     # print("#####################################")
     # print("#          DBSCAN vowel df          #")
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     vowel_dbscan_labels, vowel_dbscan = dbscan.dbscan(preprocessed_vowel_df, 1.43, 58, "euclidean", "auto")
     dbscan.plot_data(preprocessed_vowel_df, vowel_dbscan_labels, "Vowel", "euclidean", "auto")
     dbscan.accuracy(preprocessed_gs_vowel_df, vowel_dbscan_labels)
-    # dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(1.2, 1.6, 0.02), preprocessed_gs_vowel_df, "euclidean", "Vowel")
+    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(1.2, 1.6, 0.02), 58,preprocessed_gs_vowel_df, "euclidean", "Vowel")
     #
     # validator_dbscan_vowel = validation(dbscan.dbscan, preprocessed_vowel_df, vowel_dbscan_labels,2, 2)
     # validator_dbscan_vowel.gold_standard_comparison(preprocessed_gs_vowel_df)
@@ -100,11 +100,11 @@ if __name__ == '__main__':
     # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "manhattan", "auto")
     # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
     # print("EUCLIDEAN")
-    # dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.4, 0.5, 0.01), preprocessed_gs_pen_df, "euclidean", "Pen-based")
+    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.4, 0.5, 0.01), 32, preprocessed_gs_pen_df, "euclidean", "Pen-based")
     # print("COSINE")
-    # dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.005, 0.02, 0.001), preprocessed_gs_pen_df, "cosine", "Pen-based")
+    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.005, 0.02, 0.001), 32, preprocessed_gs_pen_df, "cosine", "Pen-based")
     # print("MANHATTAN")
-    # dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.9, 1.35, 0.01), preprocessed_gs_pen_df, "manhattan", "Pen-based")
+    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.9, 1.35, 0.01), 32, preprocessed_gs_pen_df, "manhattan", "Pen-based")
 
 
 

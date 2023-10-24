@@ -123,14 +123,14 @@ def plot_data(X, labels, dataset_name, metric, algorithm):
     plt.savefig(f"figures/dbscan/{dataset_name}-graph.png")
     plt.show()
 
-def graph_dbscan_eps(df, eps_range, gs, metric, dataset_name):
+def graph_dbscan_eps(df, eps_range, min_samples,gs, metric, dataset_name):
 
     n_clusters_arr = []
     n_noise_arr = []
     accuracy_arr = []
     for eps in eps_range:
          print(eps)
-         labels, db = dbscan(df, eps, 100, metric, "auto")
+         labels, db = dbscan(df, eps, min_samples, metric, "auto")
          acc = accuracy(gs, labels)
          n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
          n_noise_ = list(labels).count(-1)
