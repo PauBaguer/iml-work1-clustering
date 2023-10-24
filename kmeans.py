@@ -1,8 +1,9 @@
 import numpy as np
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import random
-
+from sklearn.metrics import davies_bouldin_score, silhouette_score
 
 #####################################
 #         Metric definitions        #
@@ -21,6 +22,8 @@ def l2_distance(point, point_vector):
 
 # Compute the cosine similarity distance between each point in point_vector and the variable point.
 def cosine_distance(point, point_vector):
+    point = np.array(point)
+    point_vector = np.array(point_vector)
     dot_product = np.dot(point_vector, point)
     norm_x = np.sqrt(np.sum(point ** 2))
     norm_y = np.sqrt(np.sum(point_vector ** 2, axis=1))
@@ -106,6 +109,74 @@ def kmeans(data, num_clusters, max_iter=5000, metric='l2', centroid_init='kmeans
         assigned_cluster.append(index)
     return centroids, assigned_cluster
 
+def plot_kmeans_graphs(df, dataset_name, real_k, range_k=4):
+    n_clusters = []
+    db_scores = []
+    sil_scores = []
+
+    db_scores2 = []
+    sil_scores2 = []
+
+    db_scores3 = []
+    sil_scores3 = []
+
+    kmin = max(real_k - range_k, 2)
+    kmax = real_k + range_k
+    for k in range(kmin, kmax):
+        n_clusters.append(k)
+
+        centroid, labels = kmeans(df, k, metric='l1', centroid_init='kmeans++')
+        db = davies_bouldin_score(df, labels)
+        sil = silhouette_score(df, labels)
+        db_scores.append(db)
+        sil_scores.append(sil)
+
+        centroid, labels = kmeans(df, k, metric='l2', centroid_init='kmeans++')
+        db = davies_bouldin_score(df, labels)
+        sil = silhouette_score(df, labels)
+        db_scores2.append(db)
+        sil_scores2.append(sil)
+
+        centroid, labels = kmeans(df, k, metric='cosine', centroid_init='kmeans++')
+        db = davies_bouldin_score(df, labels)
+        sil = silhouette_score(df, labels)
+        db_scores3.append(db)
+        sil_scores3.append(sil)
+
+    results_df = pd.DataFrame({"num_clusters": n_clusters, "DB_l1": db_scores, "SC_l1": sil_scores,
+                               "DB_l2": db_scores2, "SC_l2": sil_scores2, "DB_cos": db_scores3, "SC_cos": sil_scores3})
+
+    fig, ax1 = plt.subplots()
+    ax2 = ax1.twinx()
+    ax3 = ax1.twinx()
+    ax1.plot(results_df["num_clusters"], results_df["DB_l1"], color='r')
+    ax2.plot(results_df["num_clusters"], results_df["DB_l2"], color='g')
+    ax3.plot(results_df["num_clusters"], results_df["DB_cos"], color='b')
+
+    fig.suptitle(f"K-Means Davies-Bouldin, {dataset_name} dataset")
+    ax1.set_xlabel("Number of clusters")
+    ax1.set_ylabel("Manhattan distance", color='r')
+    ax2.set_ylabel("Euclidean distance", color='g')
+    ax3.set_ylabel("Cosine dissimilarity", color='b')
+
+    fig.savefig(f"figures/kmeans/{dataset_name}-db-metrics.png")
+    # fig.show()
+
+    fig, ax1 = plt.subplots()
+    ax2 = ax1.twinx()
+    ax3 = ax1.twinx()
+    ax1.plot(results_df["num_clusters"], results_df["SC_l1"], color='r')
+    ax2.plot(results_df["num_clusters"], results_df["SC_l2"], color='g')
+    ax3.plot(results_df["num_clusters"], results_df["SC_cos"], color='b')
+
+    fig.suptitle(f"K-Means Silhouette, {dataset_name} dataset")
+    ax1.set_xlabel("Number of clusters")
+    ax1.set_ylabel("Manhattan distance", color='r')
+    ax2.set_ylabel("Euclidean distance", color='g')
+    ax3.set_ylabel("Cosine dissimilarity", color='b')
+
+    fig.savefig(f"figures/kmeans/{dataset_name}-sc-metrics.png")
+    # fig.show()
 
 def plot_clusters(data, centroids, assigned_cluster, true_labels):
     sns.scatterplot(x=[x[0] for x in data],

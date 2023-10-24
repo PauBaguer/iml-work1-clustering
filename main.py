@@ -187,14 +187,14 @@ if __name__ == '__main__':
     preproc_adult_df = pd.DataFrame(preprocessed_adult_df)
     result4 = clarans.trying_different_values([2], [10], [2, 3, 4], preproc_adult_df, preprocessed_gs_adult_df)
     silhouette4, db4 = clarans.plot_test_cases_results(preproc_adult_df, preprocessed_adult_df,
-                                                       preprocessed_gs_adult_df, result4)
+                                                       preprocessed_gs_adult_df, result4, False, True)
     print(f'Silhouette = {silhouette4}; DB = {db4}')
 
     print('Parameter optimization Pen-based dataset')
     preproc_pen_df = pd.DataFrame(preprocessed_pen_df)
     result5 = clarans.trying_different_values([2], [10], [9, 10, 11], preproc_pen_df, preprocessed_gs_pen_df)
     silhouette5, db5 = clarans.plot_test_cases_results(preproc_pen_df, preprocessed_pen_df, preprocessed_gs_pen_df,
-                                                       result5)
+                                                       result5, False, True)
     print(f'Silhouette = {silhouette5}; DB = {db5}')
 
     print('Adult dataset')
@@ -268,30 +268,23 @@ if __name__ == '__main__':
     # print(f'Difference pen U matix: {difference_pen}')
     print()
 
-
     print('#####################################')
     print('#              K-Means              #')
     print('#####################################')
     n_clusters = preprocessed_gs_pen_df[preprocessed_gs_pen_df.argmax()] + 1
     X_pen = preprocessed_pen_df
     centroid_pen, cluster_pen = kmeans.kmeans(X_pen, n_clusters)
-
+    #
     validatorkmeans = validation(kmeans.kmeans, preprocessed_pen_df, cluster_pen, centroid_pen, n_clusters)
-    validatorkmeans.csearch(15, 'david bouldin score', 'Pen dataset')
-    validatorkmeans.csearch(15, 'silhouette score', 'Pen dataset')
     print('Pen dataset')
-    validatorkmeans.library_comparison(cluster_pen)
     validatorkmeans.gold_standard_comparison(preprocessed_gs_pen_df)
-
+    #
     n_clusters = preprocessed_gs_vowel_df[preprocessed_gs_vowel_df.argmax()] + 1
     X_vowel = preprocessed_vowel_df
     centroid_vowel, cluster_vowel = kmeans.kmeans(X_vowel, n_clusters)
 
     validatorkmeans = validation(kmeans.kmeans, preprocessed_vowel_df, cluster_vowel, centroid_vowel, n_clusters)
-    validatorkmeans.csearch(15, 'david bouldin score', 'Vowel dataset')
-    validatorkmeans.csearch(15, 'silhouette score', 'Vowel dataset')
     print('Vowel dataset')
-    validatorkmeans.library_comparison(cluster_vowel)
     validatorkmeans.gold_standard_comparison(preprocessed_gs_vowel_df)
 
     n_clusters = preprocessed_gs_adult_df[preprocessed_gs_adult_df.argmax()] + 1
@@ -299,44 +292,35 @@ if __name__ == '__main__':
     centroid_adult, cluster_adult = kmeans.kmeans(X_adult, n_clusters)
 
     validatorkmeans = validation(kmeans.kmeans, preprocessed_adult_df, cluster_adult, centroid_adult, n_clusters)
-    validatorkmeans.csearch(5, 'david bouldin score', 'Adult dataset')
-    validatorkmeans.csearch(5, 'silhouette score', 'Adult dataset')
-    print('adult dataset')
-    validatorkmeans.library_comparison(cluster_adult)
+    print('Adult dataset')
     validatorkmeans.gold_standard_comparison(preprocessed_gs_adult_df)
+    kmeans.plot_kmeans_graphs(X_pen, "Pen-based", n_clusters)
+    # kmeans.plot_kmeans_graphs(X_adult,"Adult", n_clusters)
+    # kmeans.plot_kmeans_graphs(X_vowel,"Vowel", n_clusters)
 
     print('#####################################')
     print('#              K-Modes              #')
     print('#####################################')
-    n_clusters = preprocessed_gs_pen_df_cat[preprocessed_gs_pen_df.argmax()] + 1
+    n_clusters = preprocessed_gs_pen_df[preprocessed_gs_pen_df.argmax()] + 1
     X_pen = preprocessed_pen_df_cat
     centroid_pen, cluster_pen = kmodes.kmodes(X_pen, n_clusters)
 
     validatorkmodes = validation(kmodes.kmodes, preprocessed_pen_df_cat, cluster_pen, centroid_pen, n_clusters)
-    validatorkmodes.csearch(15, 'david bouldin score', 'Pen dataset')
-    validatorkmodes.csearch(15, 'silhouette score', 'Pen dataset')
     print('Pen dataset')
-    validatorkmodes.library_comparison(cluster_pen)
     validatorkmodes.gold_standard_comparison(preprocessed_gs_pen_df_cat)
 
-    n_clusters = preprocessed_gs_vowel_df_cat[preprocessed_gs_vowel_df_cat.argmax()] + 1
+    n_clusters = preprocessed_gs_vowel_df[preprocessed_gs_vowel_df.argmax()] + 1
     X_vowel = preprocessed_vowel_df_cat
     centroid_vowel, cluster_vowel = kmodes.kmodes(X_vowel, n_clusters)
 
     validatorkmodes = validation(kmodes.kmodes, preprocessed_vowel_df_cat, cluster_vowel, centroid_vowel, n_clusters)
-    validatorkmodes.csearch(15, 'david bouldin score', 'Vowel dataset')
-    validatorkmodes.csearch(15, 'silhouette score', 'Vowel dataset')
     print('Vowel dataset')
-    validatorkmodes.library_comparison(cluster_vowel)
     validatorkmodes.gold_standard_comparison(preprocessed_gs_vowel_df_cat)
 
-    n_clusters = preprocessed_gs_adult_df_cat[preprocessed_gs_adult_df_cat.argmax()] + 1
+    n_clusters = preprocessed_gs_adult_df[preprocessed_gs_adult_df.argmax()] + 1
     X_adult = preprocessed_adult_df_cat
     centroid_adult, cluster_adult = kmodes.kmodes(X_adult, n_clusters)
 
     validatorkmodes = validation(kmodes.kmodes, preprocessed_adult_df_cat, cluster_adult, centroid_adult, n_clusters)
-    validatorkmodes.csearch(5, 'david bouldin score', 'Adult dataset')
-    validatorkmodes.csearch(5, 'silhouette score', 'Adult dataset')
-    print('adult dataset')
-    validatorkmodes.library_comparison(cluster_adult)
+    print('Adult dataset')
     validatorkmodes.gold_standard_comparison(preprocessed_gs_adult_df_cat)
