@@ -120,9 +120,9 @@ if __name__ == '__main__':
 
 
 
-    # ####################################
-    #                Birch              #
-    # ####################################
+    ####################################
+                   Birch              #
+    ####################################
 
     print("#####################################")
     print("#           Birch adult df          #")
@@ -156,29 +156,34 @@ if __name__ == '__main__':
     result1 = clarans.trying_different_values([1, 2, 3], [100], [11], preproc_vowel_df, preprocessed_gs_vowel_df)
     silhouette1, db1 = clarans.plot_test_cases_results(preproc_vowel_df, preprocessed_vowel_df,
                                                        preprocessed_gs_vowel_df, result1)
+    print(f'Silhouette = {silhouette1}; DB = {db1}')
 
     preproc_vowel_df = pd.DataFrame(preprocessed_vowel_df)
     result2 = clarans.trying_different_values([2], [10, 100], [11], preproc_vowel_df, preprocessed_gs_vowel_df)
     silhouette2, db2 = clarans.plot_test_cases_results(preproc_vowel_df, preprocessed_vowel_df,
                                                        preprocessed_gs_vowel_df, result2)
+    print(f'Silhouette = {silhouette2}; DB = {db2}')
 
     preproc_vowel_df = pd.DataFrame(preprocessed_vowel_df)
     result3 = clarans.trying_different_values([2], [10], [10, 11, 12, 13, 14], preproc_vowel_df,
                                               preprocessed_gs_vowel_df)
     silhouette3, db3 = clarans.plot_test_cases_results(preproc_vowel_df, preprocessed_vowel_df,
-                                                       preprocessed_gs_vowel_df, result3)
+                                                       preprocessed_gs_vowel_df, result3, False, True)
+    print(f'Silhouette = {silhouette3}; DB = {db3}')
 
     print('Parameter optimization Adult dataset')
     preproc_adult_df = pd.DataFrame(preprocessed_adult_df)
     result4 = clarans.trying_different_values([2], [10], [2, 3, 4], preproc_adult_df, preprocessed_gs_adult_df)
     silhouette4, db4 = clarans.plot_test_cases_results(preproc_adult_df, preprocessed_adult_df,
                                                        preprocessed_gs_adult_df, result4)
+    print(f'Silhouette = {silhouette4}; DB = {db4}')
 
     print('Parameter optimization Pen-based dataset')
     preproc_pen_df = pd.DataFrame(preprocessed_pen_df)
     result5 = clarans.trying_different_values([2], [10], [9, 10, 11], preproc_pen_df, preprocessed_gs_pen_df)
     silhouette5, db5 = clarans.plot_test_cases_results(preproc_pen_df, preprocessed_pen_df, preprocessed_gs_pen_df,
                                                        result5)
+    print(f'Silhouette = {silhouette5}; DB = {db5}')
 
     print('Adult dataset')
     preproc_adult_df = pd.DataFrame(preprocessed_adult_df)
