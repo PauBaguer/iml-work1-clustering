@@ -72,17 +72,23 @@ def plot_data(X, labels, dataset_name):
 # Split each numerical value into 4 categories
 # It could be improved by allowing to change the number of bins
 def numerical_to_categorical(df, num_index_end):
-    for row in df:
-        for i in range(0, num_index_end):
-            if row[i] < 0.25:
-                row[i] = 'a'
-            elif row[i] < 0.5:
-                row[i] = 'b'
-            elif row[i] < 0.75:
-                row[i] = 'c'
+    new_df = np.empty(df.shape, dtype=object)
+    for i in range(df.shape[0]):
+        for j in range(df.shape[1]):
+            if j < num_index_end:
+                val = df[i,j]
+                if val < 0.25:
+                    new_df[i, j] = 'a'
+                elif val < 0.5:
+                    new_df[i, j] = 'b'
+                elif val < 0.75:
+                    new_df[i, j] = 'c'
+                else:
+                    new_df[i, j] = 'd'
             else:
-                row[i] = 'd'
-    return df
+                new_df[i, j] = df[i, j]
+    #new_df.tolist()
+    return new_df
 
 #####################################
 #   Main preprocessing functions    #
@@ -178,7 +184,7 @@ def preprocess_df_to_categorical(df):
         prepped_df[col] = str_df[col]
 
     categorical_transformer = Pipeline(steps=[
-        ("imputer", SimpleImputer(strategy="most_frequent")), # fill missing values with most frequent
+        ("imputer", SimpleImputer(strategy="most_frequent")),  # fill missing values with most frequent
         # ("scaler", StandardScaler(with_mean=False)),
         # ("min-max-scaler", MinMaxScaler())
     ])
@@ -196,7 +202,7 @@ def preprocess_df_to_categorical(df):
 
     preprocessor.fit(prepped_df)
     transformed_df = preprocessor.transform(prepped_df)
-    numerical_to_categorical(transformed_df, len(numeric_cols))
+    transformed_df2 = numerical_to_categorical(transformed_df, len(numeric_cols))
     print()
 
     goldstandard_preprocessor = pre.LabelEncoder()
@@ -204,4 +210,4 @@ def preprocess_df_to_categorical(df):
     goldstandard_preprocessor.fit(prepped_df[goldstandard_col].values.ravel())
     transformed_goldstandard_col_df = goldstandard_preprocessor.transform(prepped_df[goldstandard_col].values.ravel())
 
-    return transformed_df, transformed_goldstandard_col_df, preprocessor
+    return transformed_df2, transformed_goldstandard_col_df, preprocessor
