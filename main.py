@@ -175,14 +175,14 @@ if __name__ == '__main__':
     preproc_adult_df = pd.DataFrame(preprocessed_adult_df)
     result4 = clarans.trying_different_values([2], [10], [2, 3, 4], preproc_adult_df, preprocessed_gs_adult_df)
     silhouette4, db4 = clarans.plot_test_cases_results(preproc_adult_df, preprocessed_adult_df,
-                                                       preprocessed_gs_adult_df, result4)
+                                                       preprocessed_gs_adult_df, result4, False, True)
     print(f'Silhouette = {silhouette4}; DB = {db4}')
 
     print('Parameter optimization Pen-based dataset')
     preproc_pen_df = pd.DataFrame(preprocessed_pen_df)
     result5 = clarans.trying_different_values([2], [10], [9, 10, 11], preproc_pen_df, preprocessed_gs_pen_df)
     silhouette5, db5 = clarans.plot_test_cases_results(preproc_pen_df, preprocessed_pen_df, preprocessed_gs_pen_df,
-                                                       result5)
+                                                       result5, False, True)
     print(f'Silhouette = {silhouette5}; DB = {db5}')
 
     print('Adult dataset')
