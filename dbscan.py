@@ -123,35 +123,62 @@ def plot_data(X, labels, dataset_name, metric, algorithm):
     plt.savefig(f"figures/dbscan/{dataset_name}-graph.png")
     plt.show()
 
+
+
 def graph_dbscan_eps(df, eps_range, min_samples,gs, metric, dataset_name):
 
     n_clusters_arr = []
     n_noise_arr = []
     accuracy_arr = []
+    silhouette_avg_arr = []
+    db_index_arr = []
     for eps in eps_range:
-         print(eps)
          labels, db = dbscan(df, eps, min_samples, metric, "auto")
-         acc = accuracy(gs, labels)
-         n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
-         n_noise_ = list(labels).count(-1)
-         n_clusters_arr.append(n_clusters_)
-         n_noise_arr.append(n_noise_)
-         accuracy_arr.append(acc)
+         # acc = accuracy(gs, labels)
+         try:
+            silhouette_avg = metrics.silhouette_score(df, labels)
+            db_index = metrics.davies_bouldin_score(df, labels)
+            silhouette_avg_arr.append(silhouette_avg)
+            db_index_arr.append(db_index)
+         except:
+            silhouette_avg_arr.append(0)
+            db_index_arr.append(0)
+         # n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+         # n_noise_ = list(labels).count(-1)
+         # n_clusters_arr.append(n_clusters_)
+         # n_noise_arr.append(n_noise_)
+         # accuracy_arr.append(acc)
 
 
-    results_df = pd.DataFrame({"eps": eps_range, "n_clusters":n_clusters_arr, "n_noise":n_noise_arr, "accuracy": accuracy_arr})
 
-    plt.plot(results_df["eps"], results_df["n_clusters"], marker='x')
-    plt.title(f"DBSCAN, metric: {metric}, nº of clusters vs Epsilon")
-    plt.grid()
-    plt.savefig(f"figures/dbscan/{dataset_name}-{metric}-nclusters.png")
-    plt.show()
+    results_df = pd.DataFrame({"eps": eps_range,
+                               #"n_clusters":n_clusters_arr, "n_noise":n_noise_arr, "accuracy": accuracy_arr,
+                               "silhouette": silhouette_avg_arr, "db_index": db_index_arr} )
 
-    plt.plot(results_df["eps"], results_df["accuracy"], marker='x')
-    plt.title(f"DBSCAN {dataset_name}, metric: {metric}, accuracy vs Epsilon")
-    plt.grid()
-    plt.savefig(f"figures/dbscan/{dataset_name}-{metric}-accuracy.png")
-    plt.show()
+    # plt.plot(results_df["eps"], results_df["n_clusters"], marker='x')
+    # plt.title(f"DBSCAN, metric: {metric}, nº of clusters vs Epsilon")
+    # plt.grid()
+    # plt.savefig(f"figures/dbscan/{dataset_name}-{metric}-nclusters.png")
+    # plt.show()
+    #
+    # plt.plot(results_df["eps"], results_df["accuracy"], marker='x')
+    # plt.title(f"DBSCAN {dataset_name}, metric: {metric}, accuracy vs Epsilon")
+    # plt.grid()
+    # plt.savefig(f"figures/dbscan/{dataset_name}-{metric}-accuracy.png")
+    # plt.show()
+    fig, ax1 = plt.subplots()
+    ax2 = ax1.twinx()
+    ax1.plot(results_df["eps"], results_df["silhouette"], color='g')
+    ax2.plot(results_df["eps"], results_df["db_index"], color='b')
+
+    fig.suptitle(f"{dataset_name} dataset, metric: {metric}")
+    ax1.set_xlabel("Epsilon")
+    ax1.set_ylabel("silhouette score", color='g')
+    ax2.set_ylabel("david bouldin score", color='b')
+
+    fig.savefig(f"figures/dbscan/{dataset_name}-{metric}-silhouette-db.png")
+    fig.show()
+
 
 def accuracy(gs, labels):
     count = 0

@@ -1,0 +1,317 @@
+C:\Users\pauin\PycharmProjects\work1-clustering\venv\Scripts\python.exe C:\Users\pauin\PycharmProjects\work1-clustering\main.py 
+Opening, datasets/adult.arff
+Opening, datasets/vowel.arff
+Opening, datasets/pen-based.arff
+
+Estimated number of clusters: 2
+Estimated number of noise points: 0
+Estimated number of points per cluster
+Cluster 0: 37155 points
+Cluster 1: 11687 points
+
+Estimated number of clusters: 11
+Estimated number of noise points: 0
+Estimated number of points per cluster
+Cluster 0: 90 points
+Cluster 1: 90 points
+Cluster 2: 90 points
+Cluster 3: 90 points
+Cluster 4: 90 points
+Cluster 5: 90 points
+Cluster 6: 90 points
+Cluster 7: 90 points
+Cluster 8: 90 points
+Cluster 9: 90 points
+Cluster 10: 90 points
+
+Estimated number of clusters: 10
+Estimated number of noise points: 0
+Estimated number of points per cluster
+Cluster 0: 1143 points
+Cluster 1: 1143 points
+Cluster 2: 1144 points
+Cluster 3: 1055 points
+Cluster 4: 1144 points
+Cluster 5: 1055 points
+Cluster 6: 1056 points
+Cluster 7: 1142 points
+Cluster 8: 1055 points
+Cluster 9: 1055 points
+
+preprocessed_adult_df_dimensionality: (48842, 108)
+preprocessed_vowel_df_dimensionality: (990, 29)
+preprocessed_pen_df_dimensionality: (10992, 16)
+Opening, datasets/adult.arff
+Opening, datasets/vowel.arff
+Opening, datasets/pen-based.arff
+
+
+
+#####################################
+#          DBSCAN adult df          #
+#####################################
+Params: eps: 1.6, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 22.889049530029297s
+Estimated number of clusters: 2
+Estimated number of noise points: 5995
+Estimated number of points per cluster
+Cluster 0: 40758 points
+Cluster 1: 2089 points
+Noise points, -1: 5995 points
+Count 30329
+Accuracy 0.6209614675893698
+Params: eps: 1.0, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 25.41779851913452s
+Params: eps: 1.1, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 21.374863386154175s
+Params: eps: 1.2000000000000002, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 23.295164346694946s
+Params: eps: 1.3000000000000003, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 20.977169513702393s
+Params: eps: 1.4000000000000004, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 21.0327365398407s
+Params: eps: 1.5000000000000004, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 21.67315649986267s
+Params: eps: 1.6000000000000005, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 21.555968284606934s
+Params: eps: 1.7000000000000006, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 21.124770641326904s
+Params: eps: 1.8000000000000007, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 21.585175275802612s
+Params: eps: 1.9000000000000008, min_samples: 216, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 20.864922285079956s
+#####################################
+#          DBSCAN vowel df          #
+#####################################
+Params: eps: 0.85, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 0.015451431274414062s
+Estimated number of clusters: 15
+Estimated number of noise points: 6
+Estimated number of points per cluster
+Cluster 0: 66 points
+Cluster 1: 66 points
+Cluster 2: 66 points
+Cluster 3: 66 points
+Cluster 4: 66 points
+Cluster 5: 66 points
+Cluster 6: 66 points
+Cluster 7: 64 points
+Cluster 8: 62 points
+Cluster 9: 66 points
+Cluster 10: 66 points
+Cluster 11: 66 points
+Cluster 12: 66 points
+Cluster 13: 66 points
+Cluster 14: 66 points
+Noise points, -1: 6 points
+Count 63
+Accuracy 0.06363636363636363
+Params: eps: 0.5, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.36222243309021s
+Params: eps: 0.55, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4426050186157227s
+Params: eps: 0.6000000000000001, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4458613395690918s
+Params: eps: 0.6500000000000001, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4049036502838135s
+Params: eps: 0.7000000000000002, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4984703063964844s
+Params: eps: 0.7500000000000002, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4595601558685303s
+Params: eps: 0.8000000000000003, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4770958423614502s
+Params: eps: 0.8500000000000003, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.5592255592346191s
+Params: eps: 0.9000000000000004, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.482088327407837s
+Params: eps: 0.9500000000000004, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.5089600086212158s
+Params: eps: 1.0000000000000004, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4048535823822021s
+Params: eps: 1.0500000000000005, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.5870797634124756s
+Params: eps: 1.1000000000000005, min_samples: 58, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.6412606239318848s
+Purity GS: 0.005441111299425253
+Adjusted rand score GS: -0.011500525791703447
+Normalized mutual info score GS: 0.005090222638541906
+
+#####################################
+#          DBSCAN pen df            #
+#####################################
+Auto
+Params: eps: 0.44, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4213600158691406s
+Estimated number of clusters: 9
+Estimated number of noise points: 1315
+Estimated number of points per cluster
+Cluster 0: 1074 points
+Cluster 1: 2944 points
+Cluster 2: 2336 points
+Cluster 3: 83 points
+Cluster 4: 2148 points
+Cluster 5: 618 points
+Cluster 6: 302 points
+Cluster 7: 129 points
+Cluster 8: 43 points
+Noise points, -1: 1315 points
+Count 4647
+Accuracy 0.42276200873362446
+
+ball_tree
+Params: eps: 0.44, min_samples: 32, metric: euclidean, algorithm: ball_tree
+DBSCAN execution elapsed: 0.7982840538024902s
+Estimated number of clusters: 9
+Estimated number of noise points: 1315
+Estimated number of points per cluster
+Cluster 0: 1074 points
+Cluster 1: 2944 points
+Cluster 2: 2336 points
+Cluster 3: 83 points
+Cluster 4: 2148 points
+Cluster 5: 618 points
+Cluster 6: 302 points
+Cluster 7: 129 points
+Cluster 8: 43 points
+Noise points, -1: 1315 points
+Count 4647
+Accuracy 0.42276200873362446
+
+kd_tree
+Params: eps: 0.44, min_samples: 32, metric: euclidean, algorithm: kd_tree
+DBSCAN execution elapsed: 1.8016161918640137s
+Estimated number of clusters: 9
+Estimated number of noise points: 1315
+Estimated number of points per cluster
+Cluster 0: 1074 points
+Cluster 1: 2944 points
+Cluster 2: 2336 points
+Cluster 3: 83 points
+Cluster 4: 2148 points
+Cluster 5: 618 points
+Cluster 6: 302 points
+Cluster 7: 129 points
+Cluster 8: 43 points
+Noise points, -1: 1315 points
+Count 4647
+Accuracy 0.42276200873362446
+
+Brute
+Params: eps: 0.44, min_samples: 32, metric: euclidean, algorithm: brute
+DBSCAN execution elapsed: 1.4031336307525635s
+Estimated number of clusters: 9
+Estimated number of noise points: 1315
+Estimated number of points per cluster
+Cluster 0: 1074 points
+Cluster 1: 2944 points
+Cluster 2: 2336 points
+Cluster 3: 83 points
+Cluster 4: 2148 points
+Cluster 5: 618 points
+Cluster 6: 302 points
+Cluster 7: 129 points
+Cluster 8: 43 points
+Noise points, -1: 1315 points
+Count 4647
+Accuracy 0.42276200873362446
+Params: eps: 0.012, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3124909400939941s
+Estimated number of clusters: 8
+Estimated number of noise points: 1869
+Estimated number of points per cluster
+Cluster 0: 1054 points
+Cluster 1: 2878 points
+Cluster 2: 2267 points
+Cluster 3: 82 points
+Cluster 4: 1047 points
+Cluster 5: 590 points
+Cluster 6: 999 points
+Cluster 7: 206 points
+Noise points, -1: 1869 points
+Count 5462
+Accuracy 0.49690684133915575
+Params: eps: 1.25, min_samples: 32, metric: manhattan, algorithm: auto
+DBSCAN execution elapsed: 2.3012938499450684s
+Estimated number of clusters: 10
+Estimated number of noise points: 1159
+Estimated number of points per cluster
+Cluster 0: 1071 points
+Cluster 1: 2944 points
+Cluster 2: 2336 points
+Cluster 3: 84 points
+Cluster 4: 2155 points
+Cluster 5: 617 points
+Cluster 6: 330 points
+Cluster 7: 199 points
+Cluster 8: 55 points
+Cluster 9: 42 points
+Noise points, -1: 1159 points
+Count 4666
+Accuracy 0.424490538573508
+EUCLIDEAN
+Params: eps: 0.4, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.3681104183197021s
+Params: eps: 0.41000000000000003, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.3838777542114258s
+Params: eps: 0.42000000000000004, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.40460205078125s
+Params: eps: 0.43000000000000005, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.3899767398834229s
+Params: eps: 0.44000000000000006, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.3192460536956787s
+Params: eps: 0.45000000000000007, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4067039489746094s
+Params: eps: 0.4600000000000001, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.4515655040740967s
+Params: eps: 0.4700000000000001, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.3296568393707275s
+Params: eps: 0.4800000000000001, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.3848905563354492s
+Params: eps: 0.4900000000000001, min_samples: 32, metric: euclidean, algorithm: auto
+DBSCAN execution elapsed: 1.380927562713623s
+COSINE
+Params: eps: 0.005, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3902413845062256s
+Params: eps: 0.006, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3318889141082764s
+Params: eps: 0.007, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3571984767913818s
+Params: eps: 0.008, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3132884502410889s
+Params: eps: 0.009000000000000001, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.254284381866455s
+Params: eps: 0.01, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.2659382820129395s
+Params: eps: 0.011, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3173906803131104s
+Params: eps: 0.012, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3513057231903076s
+Params: eps: 0.013000000000000001, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.2109956741333008s
+Params: eps: 0.014000000000000002, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3542900085449219s
+Params: eps: 0.015, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3229804039001465s
+Params: eps: 0.016, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3616011142730713s
+Params: eps: 0.017, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3623573780059814s
+Params: eps: 0.018000000000000002, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.393589973449707s
+Params: eps: 0.019, min_samples: 32, metric: cosine, algorithm: auto
+DBSCAN execution elapsed: 1.3870086669921875s
+MANHATTAN
+Params: eps: 1.2, min_samples: 32, metric: manhattan, algorithm: auto
+DBSCAN execution elapsed: 1.973860740661621s
+Params: eps: 1.25, min_samples: 32, metric: manhattan, algorithm: auto
+DBSCAN execution elapsed: 2.1622185707092285s
+Params: eps: 1.3, min_samples: 32, metric: manhattan, algorithm: auto
+DBSCAN execution elapsed: 2.1630032062530518s
+Params: eps: 1.35, min_samples: 32, metric: manhattan, algorithm: auto
+DBSCAN execution elapsed: 1.991818904876709s
+Params: eps: 1.4000000000000001, min_samples: 32, metric: manhattan, algorithm: auto
+DBSCAN execution elapsed: 2.1730728149414062s
+Params: eps: 1.4500000000000002, min_samples: 32, metric: manhattan, algorithm: auto
+DBSCAN execution elapsed: 2.101435661315918s
+Params: eps: 1.5000000000000002, min_samples: 32, metric: manhattan, algorithm: auto
+DBSCAN execution elapsed: 2.1523149013519287s

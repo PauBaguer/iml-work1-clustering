@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import scipy as sc
 import matplotlib.pyplot as plt
-
+from sklearn import metrics
 import preprocessing
 import dbscan, birch
 import fcmeans, kmeans, pam, kmodes, clarans
@@ -66,63 +66,78 @@ if __name__ == '__main__':
     print("#####################################")
     adult_dbscan_labels, adult_dbscan = dbscan.dbscan(preprocessed_adult_df, 1.6, 216, "euclidean", "auto")  # 60
     dbscan.plot_data(preprocessed_adult_df, adult_dbscan_labels, "Adult", "euclidean", "auto")
-    dbscan.accuracy(preprocessed_gs_adult_df, adult_dbscan_labels)
+
     dbscan.graph_dbscan_eps(preprocessed_adult_df, np.arange(1, 2, 0.1), 216, preprocessed_gs_adult_df, "euclidean", "Adult")
+    print('Validation DBSCAN Adult df')
+    validatordbscan = validation(dbscan.dbscan, preprocessed_adult_df, adult_dbscan_labels, 0, 0)
+    validatordbscan.gold_standard_comparison(preprocessed_gs_adult_df)
+    print()
 
-    # print("#####################################")
-    # print("#          DBSCAN vowel df          #")
-    # print("#####################################")
-    vowel_dbscan_labels, vowel_dbscan = dbscan.dbscan(preprocessed_vowel_df, 1.43, 58, "euclidean", "auto")
+    print("#####################################")
+    print("#          DBSCAN vowel df          #")
+    print("#####################################")
+    vowel_dbscan_labels, vowel_dbscan = dbscan.dbscan(preprocessed_vowel_df, 0.85, 58, "euclidean", "auto")
     dbscan.plot_data(preprocessed_vowel_df, vowel_dbscan_labels, "Vowel", "euclidean", "auto")
-    dbscan.accuracy(preprocessed_gs_vowel_df, vowel_dbscan_labels)
-    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(1.2, 1.6, 0.02), 58,preprocessed_gs_vowel_df, "euclidean", "Vowel")
-    #
-    # validator_dbscan_vowel = validation(dbscan.dbscan, preprocessed_vowel_df, vowel_dbscan_labels,2, 2)
-    # validator_dbscan_vowel.gold_standard_comparison(preprocessed_gs_vowel_df)
-    #
-    # print("#####################################")
-    # print("#          DBSCAN pen df            #")
-    # print("#####################################")
-    #
+
+    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.5, 1.1, 0.05), 58,preprocessed_gs_vowel_df, "euclidean", "Vowel")
+    print('Validation DBSCAN Vowel df')
+    validator_dbscan_vowel = validation(dbscan.dbscan, preprocessed_vowel_df, vowel_dbscan_labels, 2, 2)
+    validator_dbscan_vowel.gold_standard_comparison(preprocessed_gs_vowel_df)
+    print()
+
+
+    print("#####################################")
+    print("#          DBSCAN pen df            #")
+    print("#####################################")
+
     print("Auto")
-    pen_dbscan_labels, pen_dbscan_auto = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean", "auto") #0.415, 32
+    pen_dbscan_labels, pen_dbscan_auto = dbscan.dbscan(preprocessed_pen_df, 0.44, 32, "euclidean", "auto") #0.415, 32
     dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "auto")
-    dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
-    # print()
-    # print("ball_tree")
-    # pen_dbscan_labels, pen_dbscan_balltree = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean", "ball_tree")  # 0.415, 32
-    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "ball_tree")
-    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
-    # print()
-    # print("kd_tree")
-    # pen_dbscan_labels, pen_dbscan_kdtree = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean", "kd_tree")  # 0.415, 32
-    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "kd_tree")
-    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
-    # print()
-    # print("Brute")
-    # pen_dbscan_labels, pen_dbscan_brute = dbscan.dbscan(preprocessed_pen_df, 0.415, 32, "euclidean", "brute")  # 0.415, 32
-    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "brute")
-    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
-    #
-    # pen_dbscan_labels, pen_dbscan = dbscan.dbscan(preprocessed_pen_df, 0.01, 32, "cosine", "auto")  # 0.415, 32
-    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "cosine", "auto")
-    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
-    #
-    # pen_dbscan_labels, pen_dbscan = dbscan.dbscan(preprocessed_pen_df, 0.95, 32, "manhattan", "auto")  # 0.415, 32
-    # dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "manhattan", "auto")
-    # dbscan.accuracy(preprocessed_gs_pen_df, pen_dbscan_labels)
-    # print("EUCLIDEAN")
+    silhouette_avg = metrics.silhouette_score(preprocessed_pen_df, pen_dbscan_labels)
+    db_index = metrics.davies_bouldin_score(preprocessed_pen_df, pen_dbscan_labels)
+    print(f"silhouette: {silhouette_avg}, db_index {db_index}")
+    print('Validation DBSCAN Pen df')
+    validatordbscan = validation(dbscan.dbscan, preprocessed_vowel_df, vowel_dbscan_labels, 0, 0)
+    validatordbscan.gold_standard_comparison(preprocessed_gs_vowel_df)
+    print()
+    print("ball_tree")
+    pen_dbscan_labels, pen_dbscan_balltree = dbscan.dbscan(preprocessed_pen_df, 0.44, 32, "euclidean", "ball_tree")  # 0.415, 32
+    silhouette_avg = metrics.silhouette_score(preprocessed_pen_df, pen_dbscan_labels)
+    db_index = metrics.davies_bouldin_score(preprocessed_pen_df, pen_dbscan_labels)
+    print(f"silhouette: {silhouette_avg}, db_index {db_index}")
+
+    print()
+    print("kd_tree")
+    pen_dbscan_labels, pen_dbscan_kdtree = dbscan.dbscan(preprocessed_pen_df, 0.44, 32, "euclidean", "kd_tree")  # 0.415, 32
+    silhouette_avg = metrics.silhouette_score(preprocessed_pen_df, pen_dbscan_labels)
+    db_index = metrics.davies_bouldin_score(preprocessed_pen_df, pen_dbscan_labels)
+    print(f"silhouette: {silhouette_avg}, db_index {db_index}")
+    dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "euclidean", "kd_tree")
+
+    print()
+    print("Brute")
+    pen_dbscan_labels, pen_dbscan_brute = dbscan.dbscan(preprocessed_pen_df, 0.44, 32, "euclidean", "brute")  # 0.415, 32
+    silhouette_avg = metrics.silhouette_score(preprocessed_pen_df, pen_dbscan_labels)
+    db_index = metrics.davies_bouldin_score(preprocessed_pen_df, pen_dbscan_labels)
+    print(f"silhouette: {silhouette_avg}, db_index {db_index}")
+
+
+    pen_dbscan_labels, pen_dbscan = dbscan.dbscan(preprocessed_pen_df, 0.012, 32, "cosine", "auto")  # 0.415, 32
+    dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "cosine", "auto")
+
+
+    pen_dbscan_labels, pen_dbscan = dbscan.dbscan(preprocessed_pen_df, 1.25, 32, "manhattan", "auto")  # 0.415, 32
+    dbscan.plot_data(preprocessed_pen_df, pen_dbscan_labels, "Pen", "manhattan", "auto")
+
+    print("EUCLIDEAN")
     dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.4, 0.5, 0.01), 32, preprocessed_gs_pen_df, "euclidean", "Pen-based")
-    # print("COSINE")
+    print("COSINE")
     dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.005, 0.02, 0.001), 32, preprocessed_gs_pen_df, "cosine", "Pen-based")
-    # print("MANHATTAN")
-    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(0.9, 1.35, 0.01), 32, preprocessed_gs_pen_df, "manhattan", "Pen-based")
+    print("MANHATTAN")
+    dbscan.graph_dbscan_eps(preprocessed_pen_df, np.arange(1.2, 1.5, 0.05), 32, preprocessed_gs_pen_df, "manhattan", "Pen-based")
 
 
 
-    ####################################
-    #               Birch              #
-    ####################################
 
     print("#####################################")
     print("#           Birch adult df          #")
@@ -130,21 +145,18 @@ if __name__ == '__main__':
 
     adult_birch_labels, adult_birch = birch.birch(preprocessed_adult_df, 0.5, 2)
     birch.plot_data(preprocessed_adult_df, adult_birch_labels, "Adult")
-    birch.accuracy(preprocessed_gs_adult_df, adult_birch_labels)
 
     print("#####################################")
     print("#           Birch vowel df          #")
     print("#####################################")
     vowel_birch_labels, vowel_birch = birch.birch(preprocessed_vowel_df, 0.5, 11)#0.92
     birch.plot_data(preprocessed_vowel_df, vowel_birch_labels, "Vowel")
-    birch.accuracy(preprocessed_gs_vowel_df, vowel_birch_labels)
 
     print("#####################################")
     print("#           Birch pen df            #")
     print("#####################################")
     pen_birch_labels, pen_birch = birch.birch(preprocessed_pen_df, 0.5, 10)
     birch.plot_data(preprocessed_pen_df, pen_birch_labels, "Pen-based")
-    birch.accuracy(preprocessed_gs_pen_df, pen_birch_labels)
 
     print('#####################################')
     print('#              CLARANS              #')
