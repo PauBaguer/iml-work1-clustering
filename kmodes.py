@@ -12,6 +12,14 @@ from collections import defaultdict
 def dissimilarity_measure(point, point_vector):
     return [np.sum(np.array(point) != np.array(p)) for p in point_vector]
 
+# Compute the distance matrix to be used in the validation
+def compute_distance_matrix(data):
+    num_samples = data.shape[0]
+    distance_matrix = [[] for _ in range(num_samples)]
+    for i, row in enumerate(data):
+        distance_matrix[i] = (dissimilarity_measure(row, data))
+    return distance_matrix
+
 #####################################
 #           Initializations         #
 #####################################
