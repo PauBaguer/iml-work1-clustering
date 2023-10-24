@@ -13,7 +13,7 @@ def dbscan(X, eps, min_samples, metric, algorithm):
     labels = db.labels_
     end = time.time()
     print(f"DBSCAN execution elapsed: {end - start}s")
-    return labels
+    return labels, db
 
 
     # # Number of clusters in labels, ignoring noise if present.
@@ -126,7 +126,7 @@ def graph_dbscan_eps(df, eps_range, gs, metric, dataset_name):
     accuracy_arr = []
     for eps in eps_range:
          print(eps)
-         labels = dbscan(df, eps, 100, metric, "auto")
+         labels, db = dbscan(df, eps, 100, metric, "auto")
          acc = accuracy(gs, labels)
          n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
          n_noise_ = list(labels).count(-1)

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, davies_bouldin_score, silhouette_score
 from sklearn.metrics.cluster import contingency_matrix, adjusted_rand_score, normalized_mutual_info_score, homogeneity_score
-import fcmeans, pam, kmodes, kmeans, clarans
+import fcmeans, pam, kmodes, kmeans, clarans, birch, dbscan
 
 class validation():
     def __init__(self, algorithm, data, labels, v, k):
@@ -33,6 +33,12 @@ class validation():
             elif self.algorithm == clarans.CLARANS:
                 out = self.algorithm(self.data, n_clusters)
                 labels = clarans.pre_validation(out[1])
+            elif self.algorithm == birch.birch:
+                out = self.algorithm(self.data, n_clusters)
+                labels = out
+            elif self.algorithm == dbscan.dbscan:
+                out = self.algorithm(self.data, args[2], args[3], args[4], args[5])
+                labels = out
                 
             DBS = davies_bouldin_score(self.data, labels)
             SHC = silhouette_score(self.data, labels)
@@ -43,26 +49,13 @@ class validation():
                 scores.append(SHC)
             else:
                 print('Please choose a valid score')
+                return
 
         plt.figure()
         plt.plot(range(2,crange+1), scores)
         plt.xlabel('Number of clusters')
         plt.ylabel(args[0])
         plt.title(args[1])
-        plt.show()
-            
-    
-    def library_comparison(self, labels_lib):
-        adjusted_rand_score_lib = adjusted_rand_score(labels_lib, self.labels)
-        normalized_mutual_info_score_lib = normalized_mutual_info_score(labels_lib, self.labels)
-        print(f'Adjusted rand score library: {adjusted_rand_score_lib}')
-        print(f'Normalized mutual info score library: {normalized_mutual_info_score_lib}')
-        print()
-        
-        cmatrix = confusion_matrix(labels_lib, self.labels)
-        disp_vowel = ConfusionMatrixDisplay(cmatrix)
-        disp_vowel.plot()
-        plt.title('Confusion matrix Library')
         plt.show()
         
     def gold_standard_comparison(self, labels_gold):
