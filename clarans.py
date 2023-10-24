@@ -28,7 +28,7 @@ def random_neighbor(df, current):
 def cost_differential(df, k, current, clusters, clusters2, S, new_clusters, new_clusters2, medoid, medoid_id, neighbor):
     Om = medoid  # current medoid that has been replaced
     Op = neighbor  # new medoid to replace Om
-    medoids_tmp = S.copy()
+    #medoids_tmp = S.copy()
     Cmp = 0
     for i in range(len(clusters[medoid_id])):
         Oj_idx = clusters[medoid_id][i][0]
@@ -81,42 +81,51 @@ def trying_different_values(numlocal, maxneighbor, k, df, gt):
             for k_val in k:
                 bestnode, bestclusters = CLARANS(df, k_val, num, maxn)
                 predictions_array = pre_validation(bestclusters)
-                accuracy = metrics.accuracy_score(gt, predictions_array)
-                results.append([[num, maxn, k_val, accuracy, [bestnode, bestclusters]]])
+                results.append([num, maxn, k_val, [bestnode, bestclusters]])
     return results
 
 
-def plot_test_cases_results(preproc_df, preprocessed_df, preprocessed_gs, result):
+def plot_test_cases_results(preproc_df, preprocessed_df, preprocessed_gs, result, plot_vars=False, plot_measures=False):
     new_series = pd.Series(preprocessed_gs, name='GT')
     df = pd.concat([preproc_df, new_series], axis=1)
-
     silhouette = {}
     db = {}
-
     for testcase in range(len(result)):
-        bestnode = result[testcase][4][0]
+        bestnode = result[testcase][3][0]
         numlocal = result[testcase][0]
         maxneighbor = result[testcase][1]
         k = result[testcase][2]
 
         bestnode_arr = bestnode.to_numpy()
-        for i in range(len(preprocessed_df[0]) - 1):
-            plt.figure(figsize=(8, 6))
-            plt.scatter(df[i], df[i + 1], c=df.iloc[:, -1], cmap='Pastel1', s=20)
-            plt.scatter(bestnode_arr[:, i], bestnode_arr[:, i + 1], color='#000000')
-            plt.title(f'K = {k}; numlocal = {numlocal}, maxneighbor = {maxneighbor}, Variables {i} {i + 1}')
-            plt.show()
+        if plot_vars:
+            for i in range(len(preprocessed_df[0]) - 1):
+                plt.figure(figsize=(8, 6))
+                plt.scatter(df[i], df[i + 1], c=df.iloc[:, -1], cmap='Pastel1', s=20)
+                plt.scatter(bestnode_arr[:, i], bestnode_arr[:, i + 1], color='#000000')
+                plt.title(f'K = {k}; numlocal = {numlocal}, maxneighbor = {maxneighbor}, Variables {i} {i + 1}')
+                plt.show()
 
-        bestclusters = result[testcase][4][1]
+        bestclusters = result[testcase][3][1]
         predictions_array = pre_validation(bestclusters)
-
         silhouette_avg = metrics.silhouette_score(preprocessed_df, predictions_array)
         silhouette[testcase] = silhouette_avg
-
         db_index = metrics.davies_bouldin_score(preprocessed_df, predictions_array)
         db[testcase] = db_index
-
-    return (silhouette, db)
+    if plot_measures:
+        ks = [result[x][2] for x in range(len(result))]
+        y_sil = list(silhouette.values())
+        plt.figure()
+        plt.plot(ks, y_sil)
+        plt.xlabel('k values')
+        plt.ylabel('Silhouette')
+        plt.show()
+        y_db = list(db.values())
+        plt.figure()
+        plt.plot(ks, y_db)
+        plt.xlabel('k values')
+        plt.ylabel('DB')
+        plt.show()
+    return silhouette, db
 
 
 def CLARANS(df,k, numlocal = 2, maxneighbor = 100):
