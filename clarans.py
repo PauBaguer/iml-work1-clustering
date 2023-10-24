@@ -26,21 +26,18 @@ def random_neighbor(df, current):
 
 
 def cost_differential(df, k, current, clusters, clusters2, S, new_clusters, new_clusters2, medoid, medoid_id, neighbor):
-    Om = medoid  # current medoid that has been replaced
-    Op = neighbor  # new medoid to replace Om
-    #medoids_tmp = S.copy()
+    Om = medoid
+    Op = neighbor
     Cmp = 0
     for i in range(len(clusters[medoid_id])):
         Oj_idx = clusters[medoid_id][i][0]
         Oj = df.loc[Oj_idx]
         Oj2_idx = [element for element in clusters2 if element[0] == Oj_idx][0][1]
         Oj2 = current.iloc[Oj2_idx]
-
         # distance computations
         d_Oj_Oj2 = distance(Oj, Oj2)
         d_Oj_Om = distance(Oj, Om)
         d_Oj_Op = distance(Oj, Op)
-
         if d_Oj_Op >= d_Oj_Oj2:
             Cmp += (d_Oj_Oj2 - d_Oj_Om)
         elif d_Oj_Op < d_Oj_Oj2:
@@ -52,12 +49,10 @@ def cost_differential(df, k, current, clusters, clusters2, S, new_clusters, new_
                 Oj_idx = clusters[idx][j][0]
                 Oj = df.loc[Oj_idx]
                 Oj2 = current.iloc[idx]
-
                 # distances computations
                 d_Oj_Oj2 = distance(Oj, Oj2)
-                d_Oj_Om = distance(Oj, Om)
+                #d_Oj_Om = distance(Oj, Om)
                 d_Oj_Op = distance(Oj, Op)
-
                 if d_Oj_Oj2 > d_Oj_Op:
                     Cmp += (d_Oj_Op - d_Oj_Oj2)
     return Cmp
@@ -95,7 +90,6 @@ def plot_test_cases_results(preproc_df, preprocessed_df, preprocessed_gs, result
         numlocal = result[testcase][0]
         maxneighbor = result[testcase][1]
         k = result[testcase][2]
-
         bestnode_arr = bestnode.to_numpy()
         if plot_vars:
             for i in range(len(preprocessed_df[0]) - 1):
@@ -104,7 +98,6 @@ def plot_test_cases_results(preproc_df, preprocessed_df, preprocessed_gs, result
                 plt.scatter(bestnode_arr[:, i], bestnode_arr[:, i + 1], color='#000000')
                 plt.title(f'K = {k}; numlocal = {numlocal}, maxneighbor = {maxneighbor}, Variables {i} {i + 1}')
                 plt.show()
-
         bestclusters = result[testcase][3][1]
         predictions_array = pre_validation(bestclusters)
         silhouette_avg = metrics.silhouette_score(preprocessed_df, predictions_array)
@@ -128,7 +121,7 @@ def plot_test_cases_results(preproc_df, preprocessed_df, preprocessed_gs, result
     return silhouette, db
 
 
-def CLARANS(df,k, numlocal = 2, maxneighbor = 100):
+def CLARANS(df, k, numlocal=2, maxneighbor=10):
     print("Running CLARANS")
     mincost = math.inf
     i = 1
@@ -138,15 +131,12 @@ def CLARANS(df,k, numlocal = 2, maxneighbor = 100):
         current = df.sample(n=k)
         [clusters, clusters2] = cluster_asignment(k, df, current)
         current_cost = compute_total_cost(k, clusters, current)
-        print('Current cost = ' + str(current_cost))
         j = 1
-        mincost_local = math.inf
+        # mincost_local = math.inf
         while j <= maxneighbor:
-            print('Maxneighbor = ' + str(j))
             S, medoid, medoid_id, neighbor = random_neighbor(df, current)
             [new_clusters, new_clusters2] = cluster_asignment(k, df, S)
             cost_diff = cost_differential(df, k, current, clusters, clusters2, S, new_clusters, new_clusters2, medoid, medoid_id, neighbor)
-            print('Cmp = ' + str(cost_diff))
             if cost_diff < 0:
                 current = S
                 clusters = new_clusters
@@ -159,7 +149,7 @@ def CLARANS(df,k, numlocal = 2, maxneighbor = 100):
             mincost = mincost_local
             bestnode = current
 
-        if bestnode is None:  # if in this iteration no better node than random is found
+        if bestnode is None:
             bestnode = current
         print('MinCost TOTAL = ' + str(mincost))
         i += 1
