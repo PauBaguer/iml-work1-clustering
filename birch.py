@@ -7,7 +7,7 @@ def birch(X, threshold, n_clusters):
     brc = Birch(n_clusters=n_clusters, threshold=threshold).fit(X)
     res = brc.predict(X)
     labels = brc.labels_
-    return labels
+    return labels, brc
 
 
 def plot_data(X, labels, dataset_name):

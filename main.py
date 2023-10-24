@@ -118,21 +118,21 @@ if __name__ == '__main__':
     print("#           Birch adult df          #")
     print("#####################################")
 
-    adult_birch_labels = birch.birch(preprocessed_adult_df, 0.5, 2)
+    adult_birch_labels, adult_birch = birch.birch(preprocessed_adult_df, 0.5, 2)
     birch.plot_data(preprocessed_adult_df, adult_birch_labels, "Adult")
     birch.accuracy(preprocessed_gs_adult_df, adult_birch_labels)
 
     print("#####################################")
     print("#           Birch vowel df          #")
     print("#####################################")
-    vowel_birch_labels = birch.birch(preprocessed_vowel_df, 0.5, 11)#0.92
+    vowel_birch_labels, vowel_birch = birch.birch(preprocessed_vowel_df, 0.5, 11)#0.92
     birch.plot_data(preprocessed_vowel_df, vowel_birch_labels, "Vowel")
     birch.accuracy(preprocessed_gs_vowel_df, vowel_birch_labels)
 
     print("#####################################")
     print("#           Birch pen df            #")
     print("#####################################")
-    pen_birch_labels = birch.birch(preprocessed_pen_df, 0.5, 10)
+    pen_birch_labels, pen_birch = birch.birch(preprocessed_pen_df, 0.5, 10)
     birch.plot_data(preprocessed_pen_df, pen_birch_labels, "Pen-based")
     birch.accuracy(preprocessed_gs_pen_df, pen_birch_labels)
 
