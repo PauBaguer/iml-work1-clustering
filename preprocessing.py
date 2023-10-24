@@ -40,22 +40,25 @@ def plot_data(X, labels, dataset_name):
     for l in unique_labels:
         points_per_cluster[l] = list(labels).count(l)
         print(f"Cluster {l}: {points_per_cluster[l]} points")
-    return # to remove
-    colors = cm.rainbow(np.linspace(0, 1, len(unique_labels)))
-    i=0
-    for row in X:
-        plt.plot(
-            row[0],
-            row[1],
-            ".",
-            color=colors[labels[i]],
-            markersize=3,
-            zorder=labels[i]
-        )
-        # if i > 100:
-        #     plt.show()
-        #     return
-        i = i+1
+
+    plt.scatter(X[:,0:1], X[:,1:2], c=labels, s=3)
+
+
+    # colors = cm.rainbow(np.linspace(0, 1, len(unique_labels)))
+    # i=0
+    # for row in X:
+    #     plt.plot(
+    #         row[0],
+    #         row[1],
+    #         ".",
+    #         color=colors[labels[i]],
+    #         markersize=3,
+    #         zorder=labels[i]
+    #     )
+    #     # if i > 100:
+    #     #     plt.show()
+    #     #     return
+    #     i = i+1
 
 
 

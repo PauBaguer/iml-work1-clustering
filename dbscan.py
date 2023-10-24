@@ -86,31 +86,35 @@ def plot_data(X, labels, dataset_name, metric, algorithm):
 
     #colors = ["#8c510a","#d8b365","#f6e8c3","#c7eae5","#5ab4ac","#01665e","#e66101","#fdb863","#a6dba0","#008837", "red"]
     colors = cm.rainbow(np.linspace(0, 1, unique_labels_wo_noise_count))
+   # color_labels = ['k' if i == -1 else i for i in labels]
 
-    i=0
-    for row in X:
-        if labels[i] == -1:
-            plt.plot(
-                row[0],
-                row[1],
-                ".",
-                color='k',
-                markersize=2,
-                zorder=-1
-            )
-        else:
-            plt.plot(
-                row[0],
-                row[1],
-                ".",
-                color=colors[labels[i]],
-                markersize=3,
-                zorder=labels[i]
-            )
-        # if i > 100:
-        #     plt.show()
-        #     return
-        i = i+1
+
+    plt.scatter(X[:,0:1], X[:,1:2], c=labels, s=3)
+
+    # i=0
+    # for row in X:
+    #     if labels[i] == -1:
+    #         plt.plot(
+    #             row[0],
+    #             row[1],
+    #             ".",
+    #             color='k',
+    #             markersize=2,
+    #             zorder=-1
+    #         )
+    #     else:
+    #         plt.plot(
+    #             row[0],
+    #             row[1],
+    #             ".",
+    #             color=colors[labels[i]],
+    #             markersize=3,
+    #             zorder=labels[i]
+    #         )
+    #     # if i > 100:
+    #     #     plt.show()
+    #     #     return
+    #     i = i+1
 
 
 
